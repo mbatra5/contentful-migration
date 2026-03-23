@@ -1,0 +1,37 @@
+{
+  "name": "contentful-migrator",
+  "version": "1.0.0",
+  "description": "Extract Contentful entries with linked references, store locally, recreate selectively in another space",
+  "type": "module",
+  "scripts": {
+    "extract": "node scripts/extract.js",
+    "extract:shallow": "node scripts/extract.js --depth 1",
+    "extract:medium": "node scripts/extract.js --depth 3",
+    "extract:deep": "node scripts/extract.js --depth 5",
+    "extract:full": "node scripts/extract.js --no-skip",
+    "create": "node scripts/create.js",
+    "create:force": "node scripts/create.js --force",
+    "create:update": "node scripts/create.js --update",
+    "create:force-update": "node scripts/create.js --force --update",
+    "create:with-assets": "node scripts/create.js --with-assets",
+    "create:preview": "node scripts/create.js --dry-run",
+    "migrate": "node scripts/migrate.js",
+    "migrate:solo": "node scripts/migrate.js --depth 0",
+    "migrate:with-assets": "node scripts/migrate.js --with-assets",
+    "migrate:preview": "node scripts/migrate.js --dry-run",
+    "generate-schemas": "node scripts/generate-schemas.js",
+    "create-content": "node scripts/create-content.js",
+    "create-content:preview": "node scripts/create-content.js --dry-run",
+    "transform": "node scripts/run-transform.js",
+    "transform:preview": "node scripts/run-transform.js --dry-run",
+    "locale": "node scripts/update-locale.js",
+    "locale:preview": "node scripts/update-locale.js --dry-run",
+    "list": "node scripts/list.js",
+    "help": "echo '\n  === EXTRACT (download to local) ===\n  extract          Default: unlimited depth, skips page nav links\n  extract:shallow  Depth 1 — root + direct children only\n  extract:medium   Depth 3 — 3 levels of nesting\n  extract:deep     Depth 5 — 5 levels of nesting\n  extract:full     Unlimited depth, NO skip (traverses everything)\n    --entry <id> [--name <name>] [--space <alias>] [--depth N] [--skip-types x,y] [--no-skip]\n\n  === CREATE (from local to target) ===\n  create               Create new entries, skip those already in remap\n  create:force         Ignore remap — create everything fresh (new IDs)\n  create:update        Overwrite existing entries in-place (auto-creates if deleted)\n  create:force-update  Overwrite existing + create all unmapped\n  create:with-assets   Create entries + migrate referenced assets from source\n  create:preview       Dry run — see what would happen\n    --name <extraction> | --entries <id1,id2> [--space <alias>] [--with-assets] [--publish]\n\n  === MIGRATE (direct source → target, no local storage) ===\n  migrate              Direct migrate, depth 1 (root + children)\n  migrate:solo         Direct migrate, depth 0 (root entry only)\n  migrate:with-assets  Migrate entries + transfer assets with dedup\n  migrate:preview      Dry run — see what would be migrated\n    --entry <id> [--source <alias>] [--target <alias>] [--depth N] [--with-assets] [--force] [--publish]\n\n  === CREATE CONTENT (schema-driven content authoring) ===\n  generate-schemas      Pull content type schemas from Contentful API\n  create-content        Create entries from a content spec JSON\n  create-content:preview  Dry run — see what would be created\n    --spec <path.json> [--space <alias>] [--publish]\n\n  === TRANSFORM (agentic bulk field updates via JSON spec) ===\n  transform        Run a transform spec file against live Contentful\n  transform:preview  Dry run — see what would change\n    --spec <path.json> [--publish]\n\n  === LOCALE ===\n  locale           Bulk copy locale fields on existing entries (same space)\n  locale:preview   Dry run — see what would change without writing\n    --from <locale> --to <locale> + scope: --name <extraction> | --type <contentType> | --entries <id1,id2> | --all\n    [--space <alias>] [--overwrite] [--publish]\n\n  === OTHER ===\n  list             Overview of catalog, extractions, remap\n  help             This message\n'"
+  },
+  "dependencies": {
+    "contentful-management": "^11.0.0",
+    "csv-writer": "^1.6.0",
+    "dotenv": "^16.4.0"
+  }
+}

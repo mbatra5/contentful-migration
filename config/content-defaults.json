@@ -1,0 +1,245 @@
+{
+  "_meta": {
+    "description": "Production content conventions and defaults for content creation specs. Used by create-content.js and AI agents to generate production-like entries.",
+    "namingPrefix": "QA",
+    "namingPattern": "{prefix} {pageName} {componentType} {variant}"
+  },
+
+  "page": {
+    "defaults": {
+      "pageType": "Standard",
+      "seoNoFollow": false,
+      "seoNoIndex": false,
+      "includeInNavigation": true,
+      "navigationPriority": 1000,
+      "includeInSitemap": true,
+      "showBannerOnChildPages": true,
+      "metaDescription": "Meta Description"
+    },
+    "slugPattern": "kebab-case of entryName",
+    "accepts": ["richTextBlock", "embeddedExperienceBlock", "cardCollection", "hero", "fullWidthMediaBlock", "embedBlock", "tout", "linksGalleryBlock", "switchingContentCollection", "kalturaVideoBlock", "bentoGridBlock", "splitLayoutBlock", "downloadsBlock", "filteredListBlock", "newsletterSignupBlock", "rmaSpaceReference", "anchorLinkBlock", "search", "footnote"]
+  },
+
+  "hero": {
+    "defaults": {
+      "heroStyle": "Standard",
+      "autoplay": false,
+      "titleColumnWidth": "9 Columns"
+    },
+    "enums": {
+      "heroStyle": ["Standard", "Slimline"],
+      "titleColumnWidth": ["7 Columns", "9 Columns", "12 Columns"]
+    },
+    "composition": {
+      "slides": "Array of heroSlide entries"
+    }
+  },
+
+  "heroSlide": {
+    "requiredFields": ["entryName", "title"],
+    "composition": {
+      "media": "Link to mediaAsset (wraps imageWithFocalPoint or kalturaBackgroundVideo)"
+    }
+  },
+
+  "richTextBlock": {
+    "requiredFields": ["entryName", "content"],
+    "notes": "content field is a Contentful Rich Text document JSON. Can embed entries (embedded-entry-block) and assets (embedded-asset-block)."
+  },
+
+  "splitLayoutBlock": {
+    "defaults": {
+      "ratio": "equal-split",
+      "stickyColumn": "none"
+    },
+    "enums": {
+      "ratio": ["equal-split", "one-third-left", "one-third-right"],
+      "stickyColumn": ["none", "left", "right"]
+    },
+    "composition": {
+      "leftItems": "Array of block entries (richTextBlock, kalturaVideoBlock, tout, etc.)",
+      "rightItems": "Array of block entries"
+    }
+  },
+
+  "cta": {
+    "defaults": {
+      "style": "Primary"
+    },
+    "enums": {
+      "style": ["Primary", "Secondary", "Tertiary"]
+    },
+    "notes": "Must have either externalLink (URL) or internalLink (Link to page). Can open a modal instead."
+  },
+
+  "card": {
+    "defaults": {
+      "cardAppearance": "Standard With Image"
+    },
+    "enums": {
+      "cardAppearance": ["Standard With Image", "Group Of Links", "Glass", "Asset", "Asset - Vision", "Asset - Multi", "Share Price", "CTA", "Static", "Quote - Left aligned", "Quote - Centre aligned", "Quote - Vision + Left aligned", "Quote - Vision + Centre aligned", "Tools"],
+      "sharePriceCurrency": ["GBP", "USD", "EUR"]
+    }
+  },
+
+  "bentoGridBlock": {
+    "defaults": {
+      "mobileCarousel": false
+    },
+    "enums": {
+      "cardLayout": ["Single Card", "2 Columns", "3 Columns", "4 Columns", "3+2 Columns", "4+4 Columns"]
+    },
+    "composition": {
+      "cards": "Array of card entries"
+    }
+  },
+
+  "kalturaVideoBlock": {
+    "defaults": {
+      "controls": true,
+      "autoplay": false,
+      "loop": false,
+      "muted": false
+    },
+    "requiredFields": ["entryName", "title", "posterImage", "posterImageAltText", "kalturaVideoId"],
+    "composition": {
+      "posterImage": "Link to imageWithFocalPoint entry"
+    }
+  },
+
+  "kalturaBackgroundVideo": {
+    "requiredFields": ["entryName", "title", "kalturaVideoId"]
+  },
+
+  "fullWidthMediaBlock": {
+    "defaults": {
+      "contentBlockFormat": "Default"
+    },
+    "enums": {
+      "contentBlockFormat": ["Default", "None"]
+    },
+    "composition": {
+      "media": "Link to mediaAsset",
+      "internalLink": "Link to page (optional)"
+    }
+  },
+
+  "tout": {
+    "defaults": {
+      "desktopFormat": "Media left"
+    },
+    "enums": {
+      "desktopFormat": ["Media left", "Media right"]
+    },
+    "composition": {
+      "media": "Link to mediaAsset"
+    }
+  },
+
+  "embedBlock": {
+    "enums": {
+      "embedType": ["DotDigital", "Podbean", "Everviz"]
+    },
+    "notes": "URL field depends on embedType: urlDotDigital, urlPodbean, or urlEverviz"
+  },
+
+  "mediaAsset": {
+    "defaults": {
+      "aspectRatio": "16:9"
+    },
+    "enums": {
+      "aspectRatio": ["16:9", "3:4", "3:2", "1:1"]
+    },
+    "composition": {
+      "image": "Link to imageWithFocalPoint entry"
+    }
+  },
+
+  "imageWithFocalPoint": {
+    "requiredFields": ["title", "image", "focalPoint"],
+    "defaults": {
+      "ignoreFocalPointWithinRichText": false
+    },
+    "notes": "image is a Link to a Contentful Asset (the actual file). focalPoint is { focalPoint: { x, y } }"
+  },
+
+  "cardCollection": {
+    "defaults": {
+      "collectionFormat": "Three col grid"
+    },
+    "enums": {
+      "collectionFormat": ["Single col grid", "Two col grid", "Three col grid", "Four col grid", "Single col carousel", "Two col carousel", "Three col carousel"],
+      "cardFormat": ["Card with Primary CTA", "Card without Primary CTA"],
+      "mediaFormat": ["Landscape", "Portrait", "Square"]
+    }
+  },
+
+  "switchingContentCollection": {
+    "defaults": {
+      "collectionFormat": "Accordion",
+      "accordionSectionsStayOpen": false
+    },
+    "enums": {
+      "collectionFormat": ["Tabs", "Accordion"]
+    }
+  },
+
+  "notificationBanner": {
+    "defaults": {
+      "theme": "Info"
+    },
+    "enums": {
+      "theme": ["Info", "Event", "Promotion", "Alert"]
+    }
+  },
+
+  "modal": {
+    "requiredFields": ["entryName", "content"],
+    "notes": "content is an Array of block entries (richTextBlock, embedBlock, cardCollection, etc.)"
+  },
+
+  "footnote": {
+    "requiredFields": ["entryName", "body"],
+    "notes": "body is a Rich Text document"
+  },
+
+  "navigationLink": {
+    "defaults": {
+      "openInNewTab": false
+    },
+    "notes": "Must have either internalLink (page) or externalLink (URL)"
+  },
+
+  "filteredListBlock": {
+    "enums": {
+      "listVariant": ["Advocacy Hub", "News overview", "Energy in Focus", "Speeches", "Press Releases", "News Carousel", "Investor Docs Carousel"],
+      "cardsPerRow": ["3 Column", "4 Columns"]
+    }
+  },
+
+  "newsletterSignupBlock": {
+    "enums": {
+      "appearance": ["dark", "light"],
+      "signupType": ["addressBookId", "segmentName"]
+    }
+  },
+
+  "_localeConventions": {
+    "default": "en",
+    "indiaPattern": "Append '-IN' suffix to en value for en-IN locale",
+    "ctaStyleDuplication": "cta.style should be duplicated across en, en-GB, en-US with same value",
+    "example": {
+      "title": { "en": "Some Title", "en-IN": "Some Title-IN" },
+      "style": { "en": "Primary", "en-GB": "Primary", "en-US": "Primary" }
+    }
+  },
+
+  "_compositionChain": {
+    "image": "mediaAsset → imageWithFocalPoint → Asset (Contentful Asset)",
+    "video": "mediaAsset.image → kalturaBackgroundVideo (for background) OR kalturaVideoBlock (for standalone)",
+    "pageBody": "page.pageContent[] → hero, splitLayoutBlock, richTextBlock, bentoGridBlock, kalturaVideoBlock, fullWidthMediaBlock, etc.",
+    "heroBody": "hero.slides[] → heroSlide (with media → mediaAsset)",
+    "splitBody": "splitLayoutBlock.leftItems[] / rightItems[] → richTextBlock, kalturaVideoBlock, tout, etc.",
+    "bentoBody": "bentoGridBlock.cards[] → card (with various cardAppearance types)"
+  }
+}

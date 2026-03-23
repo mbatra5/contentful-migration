@@ -1,0 +1,16 @@
+{
+  "space": "source",
+  "scope": {
+    "extraction": "qa-bento-cards",
+    "contentType": "richTextBlock"
+  },
+  "transforms": [
+    {
+      "rule": "copy",
+      "field": "title",
+      "sourceLocale": "en",
+      "targetLocale": "en-IN",
+      "suffix": "-IN"
+    }
+  ]
+}

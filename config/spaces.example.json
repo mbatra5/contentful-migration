@@ -1,0 +1,13 @@
+{
+  "source": {
+    "spaceId": "your-source-space-id",
+    "environmentId": "dev",
+    "tokenEnvVar": "SOURCE_CMA_TOKEN",
+    "cdaTokenEnvVar": "SOURCE_CDA_TOKEN"
+  },
+  "target": {
+    "spaceId": "your-target-space-id",
+    "environmentId": "master",
+    "tokenEnvVar": "SOURCE_CMA_TOKEN"
+  }
+}

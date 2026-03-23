@@ -1,0 +1,37 @@
+{
+  "space": "target",
+  "scope": {
+    "entries": [
+      "75l0teDJPVbASXaNPsB69U",
+      "4drZYMMVD63GRRe7bV4cGA",
+      "tVih4QxslEvx6wpTfseE1",
+      "28JgHXtExOB4ipLbgXyyYQ",
+      "34uk2oZNIYrDm3y53KJIVG",
+      "5Yo1LDy1XrnsgwNwGXFFU",
+      "5hDgFewdyuGKnKS3y5IzmH",
+      "5amybDCvylGBToz5Q1cNJd",
+      "65t4RQxbgoubJCcVJsFxY6",
+      "eqV5TG5omrdAnGAEsvOea",
+      "2NQhDhgs2kdH7G1tv37c9v",
+      "7JUNI8mVVfkSB8OnE2szZg",
+      "PyZPb29BfOwuGNjJNnFLB",
+      "7wprZ0gf5eyU1xc0lSsVie",
+      "3OsRwId7mS2Ynpd4UiIHk2",
+      "2nC0Mwm1ITNvXGNZdpeeoP"
+    ]
+  },
+  "transforms": [
+    {
+      "rule": "set",
+      "field": "image",
+      "targetLocale": "en",
+      "value": {
+        "sys": {
+          "type": "Link",
+          "linkType": "Asset",
+          "id": "7GgQy8BHWnwSPt1ADlLBTx"
+        }
+      }
+    }
+  ]
+}

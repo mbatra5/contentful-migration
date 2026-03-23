@@ -1,0 +1,29 @@
+{
+  "space": "target",
+  "locale": "en",
+  "entries": [
+    {
+      "id": "root-page",
+      "contentType": "page",
+      "fields": {
+        "entryName": "Mixed Page Example",
+        "pageTitle": "Page With Existing + New Content",
+        "slug": "mixed-page-example",
+        "pageContent": [
+          "@new-hero",
+          "lookup:richTextBlock:QA-rte-Brand-expression",
+          "existing:4Y0HCkTLM8AhriFRIsDpRH"
+        ]
+      }
+    },
+    {
+      "id": "new-hero",
+      "contentType": "hero",
+      "fields": {
+        "entryName": "Brand New Hero",
+        "heroStyle": "Slimline",
+        "autoplay": false
+      }
+    }
+  ]
+}

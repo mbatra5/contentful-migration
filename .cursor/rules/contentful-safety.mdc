@@ -1,0 +1,21 @@
+---
+description: Safety rules when working with Contentful entries and assets in source/target spaces
+alwaysApply: true
+---
+
+# Contentful Safety Rules
+
+## Ask Before Assuming
+
+- If a Contentful API call returns **404 / NotFound** for an entry or asset, **stop and ask the user** whether they deleted it or if something else is wrong. Do NOT silently skip, retry with --force, or attempt cleanup on your own.
+- Never assume orphaned content exists in the target space — the user may have already cleaned it up manually.
+
+## Surgical Retries
+
+- When a migration partially fails (e.g. entries created but assets failed), **only retry the failed step** — do not re-run the entire migration with --force.
+- If only an asset failed, retry only the asset creation. If only linking failed, retry only linking. Do not create duplicate entries.
+
+## Destructive Operations
+
+- Never delete entries or assets in the target space without explicit user confirmation.
+- Never run --force unless the user explicitly asks for it — prefer the default dedup/remap behavior.

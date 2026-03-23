@@ -1,0 +1,30 @@
+{
+  "space": "source",
+  "locale": "en",
+  "pageName": "QA Test Migration",
+  "publish": false,
+  "entries": [
+    {
+      "id": "root-page",
+      "contentType": "page",
+      "fields": {
+        "entryName": "QA Test Migration",
+        "pageType": "Standard",
+        "pageContent": [
+          "lookup:hero:QA Hero Carousel with autoplay",
+          "lookup:splitLayoutBlock:QA Split Block 50-50",
+          "lookup:richTextBlock:QA RTE Brand Expression",
+          "lookup:bentoGridBlock:QA Bento 2 Col",
+          "lookup:kalturaVideoBlock:QA Kaltura Foreground Video",
+          "lookup:fullWidthMediaBlock:QA Media Block Video",
+          "lookup:embedBlock:QA Embed - Everviz",
+          "lookup:downloadsBlock:QA Downloads Carousel Variant",
+          "lookup:filteredListBlock:QA Press Releases Filtered List",
+          "lookup:tout:QA Image Stack 1",
+          "lookup:anchorLinkBlock:QA Anchor Link Block",
+          "lookup:newsletterSignupBlock:QA Newsletter Signup Block"
+        ]
+      }
+    }
+  ]
+}

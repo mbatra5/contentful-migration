@@ -1,0 +1,2197 @@
+{
+  "search": {
+    "name": "Search",
+    "displayField": "title",
+    "fields": {
+      "title": {
+        "name": "Title",
+        "type": "Symbol",
+        "required": true
+      },
+      "hitsPerPage": {
+        "name": "Hits Per Page",
+        "type": "Integer",
+        "required": true
+      },
+      "noResultsText": {
+        "name": "No Results Text",
+        "type": "RichText",
+        "required": true,
+        "localized": true
+      }
+    }
+  },
+  "cardCollection": {
+    "name": "📇 Card Collection",
+    "description": "Display a group of cards, with a number of formatting and layout options.",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry name",
+        "type": "Symbol",
+        "required": true
+      },
+      "title": {
+        "name": "Title",
+        "type": "Symbol",
+        "localized": true,
+        "size": {
+          "max": 43
+        }
+      },
+      "cards": {
+        "name": "Cards",
+        "type": "Array",
+        "required": true,
+        "itemType": "Link",
+        "itemLinkType": "Entry",
+        "linkContentTypes": [
+          "card"
+        ],
+        "size": {
+          "min": 1,
+          "max": 16
+        }
+      },
+      "collectionFormat": {
+        "name": "Collection format",
+        "type": "Symbol",
+        "required": true,
+        "in": [
+          "Single col grid",
+          "Two col grid",
+          "Three col grid",
+          "Four col grid",
+          "Single col carousel",
+          "Two col carousel",
+          "Three col carousel"
+        ]
+      },
+      "gridBecomesCarouselOnMobile": {
+        "name": "Grid becomes carousel on mobile?",
+        "type": "Boolean"
+      },
+      "cardFormat": {
+        "name": "Card format",
+        "type": "Symbol",
+        "in": [
+          "Card with Primary CTA",
+          "Card without Primary CTA"
+        ]
+      },
+      "mediaFormat": {
+        "name": "Media format",
+        "type": "Symbol",
+        "in": [
+          "Landscape",
+          "Portrait",
+          "Square"
+        ]
+      }
+    }
+  },
+  "hero": {
+    "name": "🎆 Hero",
+    "description": "Usually displayed at the top of a page, the hero allows us to display important or featured content to the user in a large format, either as a single item, or as a carousel with multiple slides.",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry name",
+        "type": "Symbol",
+        "required": true
+      },
+      "slides": {
+        "name": "Slides",
+        "type": "Array",
+        "localized": true,
+        "itemType": "Link",
+        "itemLinkType": "Entry",
+        "linkContentTypes": [
+          "heroSlide"
+        ],
+        "size": {
+          "min": 1,
+          "max": 5
+        }
+      },
+      "heroStyle": {
+        "name": "Hero Style",
+        "type": "Symbol",
+        "required": true,
+        "in": [
+          "Standard",
+          "Slimline"
+        ]
+      },
+      "titleColumnWidth": {
+        "name": "Title Column Width",
+        "type": "Symbol",
+        "in": [
+          "7 Columns",
+          "9 Columns",
+          "12 Columns"
+        ]
+      },
+      "autoplay": {
+        "name": "Autoplay",
+        "type": "Boolean",
+        "required": true
+      }
+    }
+  },
+  "quote": {
+    "name": "📣 Quote",
+    "description": "Quotes that can be used within various cards and rich text blocks.",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry Name",
+        "type": "Symbol",
+        "required": true
+      },
+      "quote": {
+        "name": "Quote",
+        "type": "RichText",
+        "required": true,
+        "localized": true
+      },
+      "profileName": {
+        "name": "Profile Name",
+        "type": "Symbol",
+        "required": true,
+        "localized": true
+      },
+      "profileTitle": {
+        "name": "Profile Title",
+        "type": "Symbol",
+        "required": true,
+        "localized": true
+      },
+      "profileImage": {
+        "name": "Profile Image",
+        "type": "Link",
+        "required": true,
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "imageWithFocalPoint"
+        ]
+      }
+    }
+  },
+  "downloadsBlock": {
+    "name": "🧱 Downloads Block",
+    "description": "The downloads component provides quick access to downloadable resources, such as reports, documents, or other files. It organizes these into a structured list with each item displaying key information, including the document title, publication date, file type, and size, as well as the ability to download.",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry Name",
+        "type": "Symbol",
+        "required": true
+      },
+      "sectionTitle": {
+        "name": "Section Title",
+        "type": "Symbol",
+        "localized": true
+      },
+      "items": {
+        "name": "Items",
+        "type": "Array",
+        "required": true,
+        "itemType": "Link",
+        "itemLinkType": "Entry",
+        "linkContentTypes": [
+          "downloadableAsset"
+        ],
+        "size": {
+          "min": 1,
+          "max": 8
+        }
+      },
+      "cta": {
+        "name": "CTA",
+        "type": "Link",
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "cta"
+        ]
+      },
+      "variant": {
+        "name": "Variant",
+        "type": "Symbol",
+        "required": true,
+        "in": [
+          "carousel",
+          "keydownloads"
+        ]
+      }
+    }
+  },
+  "environmentSettings": {
+    "name": "⚙️ Environment Settings",
+    "description": "Allows us to set options and collect information important to an entire Contentful environment",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry name",
+        "type": "Symbol",
+        "required": true
+      },
+      "contentModelVersion": {
+        "name": "Content model version",
+        "type": "Integer",
+        "required": true
+      },
+      "nonLatinLanguages": {
+        "name": "Non Latin Languages",
+        "type": "Array",
+        "itemType": "Symbol"
+      },
+      "searchResultsPage": {
+        "name": "Search Results Page",
+        "type": "Link",
+        "required": true,
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "page"
+        ]
+      },
+      "microcopyDictionary": {
+        "name": "Microcopy Dictionary",
+        "type": "Array",
+        "itemType": "Link",
+        "itemLinkType": "Entry",
+        "linkContentTypes": [
+          "microcopyItem"
+        ]
+      }
+    }
+  },
+  "modal": {
+    "name": "📄 Modal",
+    "description": "A modal is a UI overlay that displays content on top of the main interface, typically used to capture user attention for tasks like confirmations, forms, alerts, or additional details. It disables interaction with the underlying content until dismissed, ensuring focus on the modal’s content.",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry Name",
+        "type": "Symbol",
+        "required": true
+      },
+      "modalId": {
+        "name": "modalId",
+        "type": "Symbol"
+      },
+      "caption": {
+        "name": "Caption",
+        "type": "Symbol",
+        "localized": true,
+        "size": {
+          "max": 40
+        }
+      },
+      "title": {
+        "name": "Title",
+        "type": "Symbol",
+        "localized": true,
+        "size": {
+          "max": 140
+        }
+      },
+      "content": {
+        "name": "Content",
+        "type": "Array",
+        "required": true,
+        "itemType": "Link",
+        "itemLinkType": "Entry",
+        "linkContentTypes": [
+          "richTextBlock",
+          "cardCollection",
+          "embedBlock",
+          "card",
+          "kalturaVideoBlock"
+        ],
+        "size": {
+          "min": 1,
+          "max": 12
+        }
+      },
+      "primaryCta": {
+        "name": "Primary CTA",
+        "type": "Link",
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "cta"
+        ]
+      },
+      "secondaryCta": {
+        "name": "Secondary CTA",
+        "type": "Link",
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "cta"
+        ]
+      },
+      "scrollable": {
+        "name": "scrollable",
+        "type": "Boolean"
+      }
+    }
+  },
+  "page": {
+    "name": "📄 Page",
+    "description": "The central point of our CMS. It defines the individual pages that appear on our website, the languages they target, where the page sits in the content hierarchy, and how the page should be seen by search engines and social websites.",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry name",
+        "type": "Symbol",
+        "required": true
+      },
+      "pageTitle": {
+        "name": "Page title",
+        "type": "Symbol",
+        "required": true,
+        "localized": true
+      },
+      "shortTitle": {
+        "name": "Short title",
+        "type": "Symbol",
+        "localized": true,
+        "size": {
+          "max": 60
+        }
+      },
+      "slug": {
+        "name": "Slug",
+        "type": "Symbol",
+        "required": true
+      },
+      "pageType": {
+        "name": "Page type",
+        "type": "Symbol",
+        "required": true,
+        "in": [
+          "Standard",
+          "Press release",
+          "Speech",
+          "Publication",
+          "Energy in focus"
+        ]
+      },
+      "locales": {
+        "name": "Locales",
+        "type": "Array",
+        "required": true,
+        "itemType": "Link",
+        "itemLinkType": "Entry",
+        "linkContentTypes": [
+          "marketAndLanguage"
+        ]
+      },
+      "pageContent": {
+        "name": "Page content",
+        "type": "Array",
+        "required": true,
+        "itemType": "Link",
+        "itemLinkType": "Entry",
+        "linkContentTypes": [
+          "richTextBlock",
+          "embeddedExperienceBlock",
+          "cardCollection",
+          "hero",
+          "fullWidthMediaBlock",
+          "embedBlock",
+          "tout",
+          "linksGalleryBlock",
+          "switchingContentCollection",
+          "kalturaVideoBlock",
+          "bentoGridBlock",
+          "splitLayoutBlock",
+          "downloadsBlock",
+          "filteredListBlock",
+          "newsletterSignupBlock",
+          "rmaSpaceReference",
+          "anchorLinkBlock",
+          "search",
+          "footnote"
+        ]
+      },
+      "publicationDate": {
+        "name": "Publication date",
+        "type": "Date",
+        "localized": true
+      },
+      "metaTitle": {
+        "name": "Meta title",
+        "type": "Symbol",
+        "localized": true
+      },
+      "metaDescription": {
+        "name": "Meta description",
+        "type": "Symbol",
+        "required": true,
+        "localized": true
+      },
+      "sharingImage": {
+        "name": "Sharing image",
+        "type": "Link",
+        "localized": true,
+        "linkType": "Asset",
+        "mimeTypes": [
+          "image"
+        ]
+      },
+      "sharingImageAlt": {
+        "name": "Sharing image alt",
+        "type": "Symbol",
+        "localized": true
+      },
+      "seoNoFollow": {
+        "name": "SEO nofollow",
+        "type": "Boolean",
+        "required": true
+      },
+      "seoNoIndex": {
+        "name": "SEO noindex",
+        "type": "Boolean",
+        "required": true
+      },
+      "parentPage": {
+        "name": "Parent page",
+        "type": "Link",
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "page"
+        ]
+      },
+      "includeInNavigation": {
+        "name": "Include in navigation",
+        "type": "Boolean",
+        "required": true
+      },
+      "navigationPriority": {
+        "name": "Navigation priority",
+        "type": "Integer"
+      },
+      "includeInSitemap": {
+        "name": "Include in sitemap",
+        "type": "Boolean",
+        "required": true
+      },
+      "notificationBanner": {
+        "name": "Notification Banner",
+        "type": "Link",
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "notificationBanner"
+        ]
+      },
+      "showBannerOnChildPages": {
+        "name": "Show banner on child pages",
+        "type": "Boolean"
+      }
+    }
+  },
+  "cta": {
+    "name": "🔗 CTA",
+    "description": "Generic, reusable, configurable Call To Action (CTA) that can be dropped into other content blocks",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry name",
+        "type": "Symbol",
+        "required": true
+      },
+      "text": {
+        "name": "CTA text",
+        "type": "Symbol",
+        "required": true,
+        "localized": true
+      },
+      "internalLink": {
+        "name": "Internal link",
+        "type": "Link",
+        "localized": true,
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "page",
+          "modal"
+        ]
+      },
+      "externalLink": {
+        "name": "External link",
+        "type": "Symbol",
+        "localized": true,
+        "regexp": "^(ftp|http|https):\\/\\/(\\w+:{0,1}\\w*@)?(\\S+)(:[0-9]+)?(\\/|\\/([\\w#!:.?+=&%@!\\-/]))?$"
+      },
+      "style": {
+        "name": "CTA style",
+        "type": "Symbol",
+        "required": true,
+        "localized": true,
+        "in": [
+          "Primary",
+          "Secondary",
+          "Tertiary"
+        ]
+      },
+      "queryParameters": {
+        "name": "Query parameters",
+        "type": "Symbol",
+        "localized": true
+      }
+    }
+  },
+  "card": {
+    "name": "🪪 Card",
+    "description": "Used to display, and link to, a variety of content across the site. By default, it pulls its content from the target page being linked to, but this content can be overridden to create a custom card linking to the same content.",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry name",
+        "type": "Symbol",
+        "required": true
+      },
+      "cardAppearance": {
+        "name": "Card Appearance",
+        "type": "Symbol",
+        "required": true,
+        "in": [
+          "Standard With Image",
+          "Group Of Links",
+          "Glass",
+          "Asset",
+          "Asset - Vision",
+          "Asset - Multi",
+          "Share Price",
+          "CTA",
+          "Static",
+          "Quote - Left aligned",
+          "Quote - Centre aligned",
+          "Quote - Vision + Left aligned",
+          "Quote - Vision + Centre aligned",
+          "Tools"
+        ]
+      },
+      "category": {
+        "name": "Category",
+        "type": "Symbol",
+        "localized": true
+      },
+      "number": {
+        "name": "Number",
+        "type": "Symbol",
+        "size": {
+          "max": 2
+        }
+      },
+      "title": {
+        "name": "Title",
+        "type": "Symbol",
+        "localized": true
+      },
+      "body": {
+        "name": "Body",
+        "type": "Text",
+        "localized": true
+      },
+      "media": {
+        "name": "Media",
+        "type": "Link",
+        "localized": true,
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "mediaAsset"
+        ]
+      },
+      "sharePriceCurrency": {
+        "name": "Share Price Currency",
+        "type": "Array",
+        "itemType": "Symbol",
+        "in": [
+          "GBP",
+          "USD",
+          "EUR"
+        ]
+      },
+      "readingTimeMinutes": {
+        "name": "Reading time (minutes)",
+        "type": "Integer",
+        "range": {
+          "min": 1
+        }
+      },
+      "cta": {
+        "name": "CTA",
+        "type": "Link",
+        "localized": true,
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "cta"
+        ]
+      },
+      "withPrimaryCta": {
+        "name": "With primary CTA",
+        "type": "Boolean",
+        "localized": true
+      },
+      "downloadableAssets": {
+        "name": "Downloadable Assets",
+        "type": "Array",
+        "itemType": "Link",
+        "itemLinkType": "Entry",
+        "linkContentTypes": [
+          "downloadableAsset"
+        ],
+        "size": {
+          "max": 6
+        }
+      },
+      "quote": {
+        "name": "Quote",
+        "type": "Link",
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "quote"
+        ]
+      },
+      "textLinkGroup": {
+        "name": "Text Link Group",
+        "type": "Link",
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "textLinkGroup"
+        ]
+      }
+    }
+  },
+  "kalturaBackgroundVideo": {
+    "name": "▶️ Kaltura Background Video",
+    "description": "Kaltura video fields where the video will be used as a background.",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry Name",
+        "type": "Symbol",
+        "required": true
+      },
+      "title": {
+        "name": "Title",
+        "type": "Symbol",
+        "required": true,
+        "localized": true
+      },
+      "kalturaVideoId": {
+        "name": "Kaltura Video ID",
+        "type": "Symbol",
+        "required": true,
+        "localized": true
+      }
+    }
+  },
+  "kalturaVideoBlock": {
+    "name": "▶️ Kaltura Video Block",
+    "description": "Allows the author to embed video player into the page",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry Name",
+        "type": "Symbol",
+        "required": true
+      },
+      "title": {
+        "name": "Title",
+        "type": "Symbol",
+        "required": true,
+        "localized": true
+      },
+      "posterImage": {
+        "name": "Poster Image",
+        "type": "Link",
+        "required": true,
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "imageWithFocalPoint"
+        ]
+      },
+      "posterImageAltText": {
+        "name": "Poster Image Alt Text",
+        "type": "Symbol",
+        "required": true,
+        "localized": true
+      },
+      "kalturaVideoId": {
+        "name": "Kaltura Video ID",
+        "type": "Symbol",
+        "required": true,
+        "localized": true
+      },
+      "controls": {
+        "name": "Controls?",
+        "type": "Boolean"
+      },
+      "autoplay": {
+        "name": "Autoplay?",
+        "type": "Boolean"
+      },
+      "loop": {
+        "name": "Loop?",
+        "type": "Boolean"
+      },
+      "muted": {
+        "name": "Muted?",
+        "type": "Boolean"
+      }
+    }
+  },
+  "richTextBlock": {
+    "name": "📝 Rich text block",
+    "description": "Generic rich text component to allow us to add content to pages without the need for additional semantic context or special layout.",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry name",
+        "type": "Symbol",
+        "required": true
+      },
+      "content": {
+        "name": "Content",
+        "type": "RichText",
+        "required": true,
+        "localized": true
+      }
+    }
+  },
+  "downloadableAsset": {
+    "name": "📎 Downloadable Asset",
+    "description": "An asset that can be downloaded and found in search results",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry Name",
+        "type": "Symbol",
+        "required": true
+      },
+      "locales": {
+        "name": "Locales",
+        "type": "Array",
+        "required": true,
+        "itemType": "Link",
+        "itemLinkType": "Entry",
+        "linkContentTypes": [
+          "marketAndLanguage"
+        ]
+      },
+      "title": {
+        "name": "Title",
+        "type": "Symbol",
+        "required": true,
+        "localized": true
+      },
+      "description": {
+        "name": "Description",
+        "type": "Text",
+        "required": true,
+        "localized": true
+      },
+      "publicationDate": {
+        "name": "Publication Date",
+        "type": "Date",
+        "required": true,
+        "localized": true
+      },
+      "thumbnail": {
+        "name": "Thumbnail",
+        "type": "Link",
+        "localized": true,
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "mediaAsset"
+        ]
+      },
+      "asset": {
+        "name": "Asset",
+        "type": "Link",
+        "required": true,
+        "localized": true,
+        "linkType": "Asset"
+      }
+    }
+  },
+  "rmaSpaceReference": {
+    "name": "🧱 RMA Space Reference",
+    "description": "A utility content type to enable RMA authors to make additive or substitutional changes to global content whilst RMA content is under preparation",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry name",
+        "type": "Symbol",
+        "required": true
+      },
+      "externalContent": {
+        "name": "External Content",
+        "type": "Text",
+        "required": true,
+        "regexp": "^https?://(app\\.)?contentful\\.com/spaces/[^/]+/(environments/[^/]+/)?entries/[^/]+$"
+      },
+      "localContent": {
+        "name": "Local Content",
+        "type": "Link",
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "richTextBlock",
+          "embeddedExperienceBlock",
+          "cardCollection",
+          "hero",
+          "fullWidthMediaBlock",
+          "embedBlock",
+          "tout",
+          "linksGalleryBlock",
+          "switchingContentCollection",
+          "kalturaVideoBlock",
+          "bentoGridBlock",
+          "splitLayoutBlock",
+          "downloadsBlock",
+          "filteredListBlock",
+          "newsletterSignupBlock",
+          "rmaSpaceReference",
+          "anchorLinkBlock",
+          "search",
+          "footnote"
+        ]
+      }
+    }
+  },
+  "splitLayoutBlock": {
+    "name": "🧩 Split Layout Block",
+    "description": "A split component is a component that would be used as a flexible layout block that would allow authors to insert components into two columns and choose how to align content left or right.",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry Name",
+        "type": "Symbol",
+        "required": true
+      },
+      "leftItems": {
+        "name": "Left Items",
+        "type": "Array",
+        "required": true,
+        "itemType": "Link",
+        "itemLinkType": "Entry",
+        "linkContentTypes": [
+          "richTextBlock",
+          "card",
+          "embedBlock",
+          "kalturaVideoBlock",
+          "newsletterSignupBlock",
+          "downloadsBlock"
+        ],
+        "size": {
+          "max": 8
+        }
+      },
+      "rightItems": {
+        "name": "Right Items",
+        "type": "Array",
+        "required": true,
+        "itemType": "Link",
+        "itemLinkType": "Entry",
+        "linkContentTypes": [
+          "richTextBlock",
+          "card",
+          "embedBlock",
+          "kalturaVideoBlock",
+          "newsletterSignupBlock",
+          "downloadsBlock"
+        ],
+        "size": {
+          "max": 8
+        }
+      },
+      "ratio": {
+        "name": "Ratio",
+        "type": "Symbol",
+        "required": true,
+        "in": [
+          "equal-split",
+          "one-third-left",
+          "one-third-right"
+        ]
+      },
+      "stickyColumn": {
+        "name": "Sticky Column",
+        "type": "Symbol",
+        "required": true,
+        "in": [
+          "none",
+          "left",
+          "right"
+        ]
+      }
+    }
+  },
+  "imageWithFocalPoint": {
+    "name": "Image with Focal Point",
+    "displayField": "title",
+    "fields": {
+      "title": {
+        "name": "Title",
+        "type": "Symbol",
+        "required": true
+      },
+      "image": {
+        "name": "Image",
+        "type": "Link",
+        "required": true,
+        "linkType": "Asset"
+      },
+      "focalPoint": {
+        "name": "Focal point",
+        "type": "Object",
+        "required": true
+      },
+      "ignoreFocalPointWithinRichText": {
+        "name": "Ignore focal point within Rich text",
+        "type": "Boolean"
+      }
+    }
+  },
+  "switchingContentSection": {
+    "name": "📝 Switching Content Section",
+    "description": "Create sections for use within a Switching Content Block, that can be shown and hidden, generally by clicking on their section title.",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry name",
+        "type": "Symbol",
+        "required": true
+      },
+      "title": {
+        "name": "Title",
+        "type": "Symbol",
+        "required": true,
+        "localized": true
+      },
+      "subtitle": {
+        "name": "Subtitle",
+        "type": "Symbol",
+        "localized": true
+      },
+      "content": {
+        "name": "Content",
+        "type": "Array",
+        "required": true,
+        "localized": true,
+        "itemType": "Link",
+        "itemLinkType": "Entry",
+        "linkContentTypes": [
+          "hero",
+          "fullWidthMediaBlock",
+          "linksGalleryBlock",
+          "tout",
+          "cardCollection",
+          "richTextBlock",
+          "embedBlock",
+          "embeddedExperienceBlock",
+          "downloadsBlock",
+          "switchingContentCollection",
+          "splitLayoutBlock",
+          "kalturaVideoBlock",
+          "newsletterSignupBlock",
+          "bentoGridBlock",
+          "filteredListBlock"
+        ],
+        "size": {
+          "max": 7
+        }
+      }
+    }
+  },
+  "filteredListBlock": {
+    "name": "🧱 Filtered List Block",
+    "description": "Present a collection of reference-able content in contentful to the user.",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry Name",
+        "type": "Symbol",
+        "required": true
+      },
+      "title": {
+        "name": "Title",
+        "type": "Symbol",
+        "localized": true
+      },
+      "listVariant": {
+        "name": "List variant",
+        "type": "Symbol",
+        "required": true,
+        "in": [
+          "Advocacy Hub",
+          "News overview",
+          "Energy in Focus",
+          "Speeches",
+          "Press Releases",
+          "News Carousel",
+          "Investor Docs Carousel"
+        ]
+      },
+      "cardsPerRow": {
+        "name": "Cards Per Row",
+        "type": "Symbol",
+        "required": true,
+        "in": [
+          "3 Column",
+          "4 Columns"
+        ]
+      },
+      "hitsPerPage": {
+        "name": "Hits Per Page",
+        "type": "Integer",
+        "required": true
+      },
+      "emptyContent": {
+        "name": "Empty Content",
+        "type": "RichText",
+        "required": true,
+        "localized": true
+      }
+    }
+  },
+  "marketAndLanguage": {
+    "name": "🌐 Market and Language",
+    "description": "Allows us to define a set of locale strings that constitute a market that a page, or navigation elements, can be targeted to.",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry name",
+        "type": "Symbol",
+        "required": true
+      },
+      "localeStrings": {
+        "name": "Locale strings",
+        "type": "Array",
+        "required": true,
+        "itemType": "Symbol"
+      }
+    }
+  },
+  "heroSlide": {
+    "name": "📝 Hero Slide",
+    "description": "Individual unit of content for the Hero content type. Can be used singularly or together to form a carousel.",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry name",
+        "type": "Symbol",
+        "required": true
+      },
+      "media": {
+        "name": "Media",
+        "type": "Link",
+        "localized": true,
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "mediaAsset"
+        ]
+      },
+      "title": {
+        "name": "Title",
+        "type": "Symbol",
+        "required": true,
+        "localized": true
+      },
+      "bodyText": {
+        "name": "Body text",
+        "type": "Text",
+        "localized": true
+      },
+      "internalLink": {
+        "name": "Internal link",
+        "type": "Link",
+        "localized": true,
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "page"
+        ]
+      },
+      "externalLink": {
+        "name": "External link",
+        "type": "Symbol",
+        "localized": true,
+        "regexp": "^(ftp|http|https):\\/\\/(\\w+:{0,1}\\w*@)?(\\S+)(:[0-9]+)?(\\/|\\/([\\w#!:.?+=&%@!\\-/]))?$"
+      },
+      "ctaText": {
+        "name": "CTA text",
+        "type": "Symbol",
+        "localized": true
+      }
+    }
+  },
+  "newsletterSignupBlock": {
+    "name": "🧱 Newsletter Signup Block",
+    "description": "The Newsletter signup component is an in-page banner designed to encourage users to subscribe to our newsletter. Positioned within content pages, it provides a clear call-to-action and a simple form input. This component helps increase newsletter registrations.",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry Name",
+        "type": "Symbol",
+        "required": true
+      },
+      "appearance": {
+        "name": "Appearance",
+        "type": "Symbol",
+        "required": true,
+        "in": [
+          "dark",
+          "light"
+        ]
+      },
+      "signupType": {
+        "name": "Signup Type",
+        "type": "Symbol",
+        "required": true,
+        "in": [
+          "addressBookId",
+          "segmentName"
+        ]
+      },
+      "signupTarget": {
+        "name": "Signup Target",
+        "type": "Symbol",
+        "required": true,
+        "localized": true
+      },
+      "title": {
+        "name": "Title",
+        "type": "Symbol",
+        "required": true,
+        "localized": true,
+        "size": {
+          "max": 64
+        }
+      },
+      "description": {
+        "name": "description",
+        "type": "Symbol",
+        "localized": true
+      },
+      "placeholder": {
+        "name": "Placeholder",
+        "type": "Symbol",
+        "required": true,
+        "localized": true
+      },
+      "checkboxLabel": {
+        "name": "Checkbox label",
+        "type": "Symbol",
+        "required": true,
+        "localized": true,
+        "size": {
+          "max": 120
+        }
+      },
+      "termsAndConditions": {
+        "name": "Terms and conditions",
+        "type": "Link",
+        "required": true,
+        "localized": true,
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "cta"
+        ]
+      },
+      "helpText": {
+        "name": "Help Text",
+        "type": "Symbol",
+        "required": true,
+        "localized": true
+      },
+      "errorText": {
+        "name": "Error Text",
+        "type": "Symbol",
+        "required": true,
+        "localized": true
+      },
+      "successMessage": {
+        "name": "Success Message",
+        "type": "Symbol",
+        "required": true,
+        "localized": true
+      },
+      "reCaptchaText": {
+        "name": "ReCaptcha text",
+        "type": "RichText",
+        "required": true
+      }
+    }
+  },
+  "header": {
+    "name": "🏗️ Header",
+    "description": "Contains configuration for a header to be used on the website, targeted to a particular locale or locales. This configuration includes navigation and logo overrides.",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry name",
+        "type": "Symbol",
+        "required": true
+      },
+      "topLevelPages": {
+        "name": "Top Level Pages",
+        "type": "Array",
+        "required": true,
+        "itemType": "Link",
+        "itemLinkType": "Entry",
+        "linkContentTypes": [
+          "page"
+        ],
+        "size": {
+          "min": 1,
+          "max": 5
+        }
+      },
+      "additionalLinks": {
+        "name": "Additional links",
+        "type": "Array",
+        "itemType": "Link",
+        "itemLinkType": "Entry",
+        "linkContentTypes": [
+          "navigationLink"
+        ],
+        "size": {
+          "max": 2
+        }
+      },
+      "locales": {
+        "name": "Locales",
+        "type": "Array",
+        "required": true,
+        "itemType": "Link",
+        "itemLinkType": "Entry",
+        "linkContentTypes": [
+          "marketAndLanguage"
+        ]
+      },
+      "marketPriority": {
+        "name": "Market priority",
+        "type": "Integer",
+        "required": true,
+        "in": [
+          10,
+          20,
+          30,
+          40,
+          50,
+          60,
+          70,
+          80,
+          90,
+          100
+        ]
+      },
+      "siteTunnel": {
+        "name": "Site Tunnel",
+        "type": "Link",
+        "localized": true,
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "cta"
+        ]
+      }
+    }
+  },
+  "externalResource": {
+    "name": "🔗 External Resource",
+    "description": "For use in filtered lists, e.g. the advocacy hub – this allows an author to link to an external URL and provide additional contextual information.",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry name",
+        "type": "Symbol",
+        "required": true
+      },
+      "locales": {
+        "name": "Locales",
+        "type": "Array",
+        "required": true,
+        "itemType": "Link",
+        "itemLinkType": "Entry",
+        "linkContentTypes": [
+          "marketAndLanguage"
+        ]
+      },
+      "title": {
+        "name": "Title",
+        "type": "Symbol",
+        "required": true,
+        "localized": true
+      },
+      "description": {
+        "name": "Description",
+        "type": "RichText",
+        "required": true,
+        "localized": true,
+        "size": {
+          "max": 500
+        }
+      },
+      "publicationDate": {
+        "name": "Publication date",
+        "type": "Date",
+        "required": true
+      },
+      "externalUrl": {
+        "name": "External URL",
+        "type": "Symbol",
+        "required": true,
+        "regexp": "^(ftp|http|https):\\/\\/(\\w+:{0,1}\\w*@)?(\\S+)(:[0-9]+)?(\\/|\\/([\\w#!:.?+=&%@!\\-/]))?$"
+      }
+    }
+  },
+  "footer": {
+    "name": "🏗️ Footer",
+    "description": "Contains configuration for a footer to be used on the website, targeted to a particular locale or locales. This configuration includes navigation and copyright overrides.",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry name",
+        "type": "Symbol",
+        "required": true
+      },
+      "locales": {
+        "name": "Locales",
+        "type": "Array",
+        "required": true,
+        "itemType": "Link",
+        "itemLinkType": "Entry",
+        "linkContentTypes": [
+          "marketAndLanguage"
+        ]
+      },
+      "marketPriority": {
+        "name": "Market priority",
+        "type": "Integer",
+        "required": true,
+        "in": [
+          10,
+          20,
+          30,
+          40,
+          50,
+          60,
+          70,
+          80,
+          90,
+          100
+        ]
+      },
+      "primaryLinks": {
+        "name": "Primary links",
+        "type": "Array",
+        "required": true,
+        "itemType": "Link",
+        "itemLinkType": "Entry",
+        "linkContentTypes": [
+          "textLinkGroup"
+        ],
+        "size": {
+          "min": 1,
+          "max": 8
+        }
+      },
+      "newsletterSignup": {
+        "name": "Newsletter signup",
+        "type": "Link",
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "newsletterSignupBlock"
+        ]
+      },
+      "showNewsletter": {
+        "name": "Show Newsletter",
+        "type": "Boolean"
+      },
+      "socialLinksTitle": {
+        "name": "Social links title",
+        "type": "Symbol",
+        "localized": true
+      },
+      "socialLinksBody": {
+        "name": "Social links body",
+        "type": "Symbol",
+        "localized": true
+      },
+      "facebookUrl": {
+        "name": "Facebook URL",
+        "type": "Symbol"
+      },
+      "linkedInUrl": {
+        "name": "LinkedIn URL",
+        "type": "Symbol"
+      },
+      "twitterUrl": {
+        "name": "Twitter URL",
+        "type": "Symbol"
+      },
+      "instagramUrl": {
+        "name": "Instagram URL",
+        "type": "Symbol"
+      },
+      "youTubeUrl": {
+        "name": "YouTube URL",
+        "type": "Symbol"
+      },
+      "showSocialLinks": {
+        "name": "Show Social links",
+        "type": "Boolean"
+      },
+      "copyrightText": {
+        "name": "Copyright text",
+        "type": "Symbol",
+        "required": true,
+        "localized": true
+      },
+      "secondaryLinks": {
+        "name": "Secondary links",
+        "type": "Array",
+        "itemType": "Link",
+        "itemLinkType": "Entry",
+        "linkContentTypes": [
+          "navigationLink"
+        ],
+        "size": {
+          "min": 0,
+          "max": 7
+        }
+      }
+    }
+  },
+  "notificationBanner": {
+    "name": "ℹ Notification Banner",
+    "description": "The Notification Banner is a flexible, visually prominent UI component designed to deliver important messages to users at the top of a page or section.",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry Name",
+        "type": "Symbol",
+        "required": true
+      },
+      "title": {
+        "name": "Title",
+        "type": "Symbol",
+        "required": true,
+        "localized": true
+      },
+      "content": {
+        "name": "Content",
+        "type": "RichText",
+        "localized": true
+      },
+      "theme": {
+        "name": "Theme",
+        "type": "Symbol",
+        "required": true,
+        "in": [
+          "Info",
+          "Event",
+          "Promotion",
+          "Alert"
+        ]
+      },
+      "primaryCta": {
+        "name": "Primary CTA",
+        "type": "Link",
+        "localized": true,
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "cta"
+        ]
+      },
+      "additionalCta": {
+        "name": "Additional CTA",
+        "type": "Link",
+        "localized": true,
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "cta"
+        ]
+      }
+    }
+  },
+  "embedBlock": {
+    "name": "🗃️ Embed Block",
+    "description": "Used to embed external content from select sources outside of bp into the site",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry name",
+        "type": "Symbol",
+        "required": true
+      },
+      "title": {
+        "name": "Title",
+        "type": "Symbol",
+        "localized": true
+      },
+      "embedType": {
+        "name": "Embed type",
+        "type": "Symbol",
+        "required": true,
+        "in": [
+          "DotDigital",
+          "Podbean",
+          "Everviz"
+        ]
+      },
+      "urlDotDigital": {
+        "name": "DotDigital URL",
+        "type": "Symbol",
+        "localized": true,
+        "regexp": "https?:\\/\\/(?:r1\\.dotdigital-pages\\.com|comms\\.castrol\\.com|internal-comms\\.bp\\.com|comms\\.bp\\.com|newsletter\\.aral\\.de|news\\.bp\\.com)(\\/[^\\s]*)?"
+      },
+      "urlPodbean": {
+        "name": "Podbean URL",
+        "type": "Symbol",
+        "localized": true,
+        "regexp": "https?:\\/\\/(?:www\\.podbean\\.com)(\\/[^\\s]*)?"
+      },
+      "youtubeId": {
+        "name": "YouTube video ID",
+        "type": "Symbol",
+        "localized": true,
+        "disabled": true
+      },
+      "youtubeMute": {
+        "name": "Mute?",
+        "type": "Boolean",
+        "localized": true,
+        "disabled": true
+      },
+      "youtubePlaysInline": {
+        "name": "PlaysInline (iOS)",
+        "type": "Boolean",
+        "localized": true,
+        "disabled": true
+      },
+      "evervizId": {
+        "name": "Everviz ID",
+        "type": "Symbol",
+        "localized": true
+      }
+    }
+  },
+  "textLinkGroup": {
+    "name": "📝 Text Link Group",
+    "description": "Used to create sets of links with an accompanying title for use in a variety of places across the site.",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry Name",
+        "type": "Symbol",
+        "required": true
+      },
+      "title": {
+        "name": "Title",
+        "type": "Symbol",
+        "localized": true
+      },
+      "navigationLinks": {
+        "name": "Navigation Links",
+        "type": "Array",
+        "required": true,
+        "itemType": "Link",
+        "itemLinkType": "Entry",
+        "linkContentTypes": [
+          "navigationLink"
+        ],
+        "size": {
+          "min": 1,
+          "max": 7
+        }
+      }
+    }
+  },
+  "mediaAsset": {
+    "name": "🖼️ Media Asset",
+    "description": "Create an asset to be used within other elements such as cards, with options for adding a separate mobile image, adding looping video and setting default values for alt text and descriptions.",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry name",
+        "type": "Symbol",
+        "required": true
+      },
+      "image": {
+        "name": "Image",
+        "type": "Link",
+        "required": true,
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "imageWithFocalPoint"
+        ]
+      },
+      "video": {
+        "name": "Video",
+        "type": "Link",
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "kalturaBackgroundVideo"
+        ]
+      },
+      "videoMobile": {
+        "name": "Mobile Video",
+        "type": "Link",
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "kalturaBackgroundVideo"
+        ]
+      },
+      "altText": {
+        "name": "Alt text",
+        "type": "Text",
+        "required": true,
+        "localized": true
+      },
+      "description": {
+        "name": "Description / Caption",
+        "type": "Text",
+        "localized": true
+      },
+      "aspectRatio": {
+        "name": "Aspect ratio",
+        "type": "Symbol",
+        "required": true,
+        "in": [
+          "16:9",
+          "3:4",
+          "3:2",
+          "1:1"
+        ]
+      }
+    }
+  },
+  "footnote": {
+    "name": "📄 Footnote",
+    "description": "Footnotes can be added to Rich Text Blocks to provide additional contextual information",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry name",
+        "type": "Symbol",
+        "required": true
+      },
+      "body": {
+        "name": "Body",
+        "type": "RichText",
+        "required": true,
+        "localized": true
+      }
+    }
+  },
+  "authorGuide": {
+    "name": "ℹ️ Author Guide",
+    "description": "A utility content type that exists only to provide author guidance on how to do something in Contentful",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry name",
+        "type": "Symbol",
+        "required": true
+      },
+      "description": {
+        "name": "Description",
+        "type": "RichText"
+      }
+    }
+  },
+  "tout": {
+    "name": "🎑 Image Stack",
+    "description": "A two-column block, comprising of a media item on one side and text and CTAs on the other, which stacks on mobile",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry name",
+        "type": "Symbol",
+        "required": true
+      },
+      "title": {
+        "name": "Title",
+        "type": "Symbol",
+        "required": true,
+        "localized": true,
+        "size": {
+          "max": 28
+        }
+      },
+      "media": {
+        "name": "Media",
+        "type": "Link",
+        "required": true,
+        "localized": true,
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "mediaAsset"
+        ]
+      },
+      "content": {
+        "name": "Content",
+        "type": "Text",
+        "localized": true,
+        "size": {
+          "max": 124
+        }
+      },
+      "secondaryCTA": {
+        "name": "Secondary CTA",
+        "type": "Link",
+        "localized": true,
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "cta"
+        ]
+      },
+      "tertiaryCTA": {
+        "name": "Tertiary CTA",
+        "type": "Link",
+        "localized": true,
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "cta"
+        ]
+      },
+      "desktopFormat": {
+        "name": "Block format",
+        "type": "Symbol",
+        "required": true,
+        "localized": true,
+        "in": [
+          "Media left",
+          "Media right"
+        ]
+      }
+    }
+  },
+  "switchingContentCollection": {
+    "name": "🔄 Switching Content Collection",
+    "description": "Create a set of switchable content that can be shown/hidden via tabs, accordions etc",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry name",
+        "type": "Symbol",
+        "required": true
+      },
+      "title": {
+        "name": "Title",
+        "type": "Symbol",
+        "localized": true
+      },
+      "introContent": {
+        "name": "Intro content",
+        "type": "Text",
+        "localized": true
+      },
+      "sections": {
+        "name": "Sections",
+        "type": "Array",
+        "required": true,
+        "localized": true,
+        "itemType": "Link",
+        "itemLinkType": "Entry",
+        "linkContentTypes": [
+          "switchingContentSection"
+        ],
+        "size": {
+          "min": 2,
+          "max": 7
+        }
+      },
+      "collectionFormat": {
+        "name": "Collection format",
+        "type": "Symbol",
+        "required": true,
+        "in": [
+          "Tabs",
+          "Accordion"
+        ]
+      },
+      "accordionSectionsStayOpen": {
+        "name": "Accordion sections stay open?",
+        "type": "Boolean",
+        "required": true
+      }
+    }
+  },
+  "bentoGridBlock": {
+    "name": "📇 Bento Grid Block",
+    "description": "Display a collection of cards in a Bento layout format, e.g. for the Investor Hub",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry Name",
+        "type": "Symbol",
+        "required": true
+      },
+      "sectionTitle": {
+        "name": "Section Title",
+        "type": "Symbol",
+        "localized": true
+      },
+      "cards": {
+        "name": "Cards",
+        "type": "Array",
+        "required": true,
+        "itemType": "Link",
+        "itemLinkType": "Entry",
+        "linkContentTypes": [
+          "card"
+        ],
+        "size": {
+          "min": 1,
+          "max": 8
+        }
+      },
+      "cardLayout": {
+        "name": "Card Layout",
+        "type": "Symbol",
+        "required": true,
+        "in": [
+          "Single Card",
+          "2 Columns",
+          "3 Columns",
+          "4 Columns",
+          "3+2 Columns",
+          "4+4 Columns"
+        ]
+      },
+      "mobileCarousel": {
+        "name": "Mobile Carousel?",
+        "type": "Boolean",
+        "required": true
+      }
+    }
+  },
+  "navigationLink": {
+    "name": "🔗 Navigation Link",
+    "description": "Link to either an internal page or modal, or an external URL.",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry name",
+        "type": "Symbol",
+        "required": true
+      },
+      "linkText": {
+        "name": "Link text",
+        "type": "Symbol",
+        "required": true,
+        "localized": true,
+        "size": {
+          "max": 80
+        }
+      },
+      "internalLink": {
+        "name": "Internal link",
+        "type": "Link",
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "page"
+        ]
+      },
+      "externalLink": {
+        "name": "External link",
+        "type": "Symbol",
+        "regexp": "^(ftp|http|https):\\/\\/(\\w+:{0,1}\\w*@)?(\\S+)(:[0-9]+)?(\\/|\\/([\\w#!:.?+=&%@!\\-/]))?$"
+      },
+      "queryParameters": {
+        "name": "Query parameters",
+        "type": "Symbol"
+      },
+      "openInNewTab": {
+        "name": "Open in new tab",
+        "type": "Boolean",
+        "required": true
+      }
+    }
+  },
+  "anchorLinkBlock": {
+    "name": "🔗 Anchor Link Block",
+    "description": "Provides a way for key communication content to be sectioned up and presented in a more digestible way for the user.",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry Name",
+        "type": "Symbol",
+        "required": true
+      },
+      "items": {
+        "name": "Items",
+        "type": "Array",
+        "required": true,
+        "itemType": "Link",
+        "itemLinkType": "Entry",
+        "linkContentTypes": [
+          "switchingContentSection"
+        ],
+        "size": {
+          "min": 2,
+          "max": 14
+        }
+      }
+    }
+  },
+  "linksGalleryBlock": {
+    "name": "🎑 Links Gallery Block",
+    "description": "A bespoke component for showing a set of three links, each with a media item associated with them, which is revealed on hovering over the link",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry name",
+        "type": "Symbol",
+        "required": true
+      },
+      "title": {
+        "name": "Title",
+        "type": "Symbol",
+        "required": true,
+        "localized": true,
+        "size": {
+          "max": 43
+        }
+      },
+      "items": {
+        "name": "Items",
+        "type": "Array",
+        "required": true,
+        "itemType": "Link",
+        "itemLinkType": "Entry",
+        "linkContentTypes": [
+          "linksGalleryItem"
+        ],
+        "size": {
+          "min": 2,
+          "max": 4
+        }
+      },
+      "autoplay": {
+        "name": "Autoplay",
+        "type": "Boolean",
+        "required": true
+      }
+    }
+  },
+  "fullWidthMediaBlock": {
+    "name": "🎑 Full-width Media Block",
+    "description": "A large media block, broken out of the flow and width of the page content, including a content block to display text and CTA(s)",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry name",
+        "type": "Symbol",
+        "required": true
+      },
+      "media": {
+        "name": "Media",
+        "type": "Link",
+        "required": true,
+        "localized": true,
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "mediaAsset"
+        ]
+      },
+      "sectionHeadline": {
+        "name": "Section headline",
+        "type": "Symbol",
+        "localized": true,
+        "size": {
+          "max": 43
+        }
+      },
+      "title": {
+        "name": "Title",
+        "type": "Symbol",
+        "localized": true,
+        "size": {
+          "max": 50
+        }
+      },
+      "content": {
+        "name": "Content",
+        "type": "Text",
+        "localized": true,
+        "size": {
+          "max": 156
+        }
+      },
+      "contentBlockFormat": {
+        "name": "Content block format",
+        "type": "Symbol",
+        "required": true,
+        "localized": true,
+        "in": [
+          "Default",
+          "None"
+        ]
+      },
+      "internalLink": {
+        "name": "Internal link",
+        "type": "Link",
+        "localized": true,
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "page"
+        ]
+      },
+      "externalLink": {
+        "name": "External link",
+        "type": "Symbol",
+        "localized": true,
+        "regexp": "^(ftp|http|https):\\/\\/(\\w+:{0,1}\\w*@)?(\\S+)(:[0-9]+)?(\\/|\\/([\\w#!:.?+=&%@!\\-/]))?$"
+      },
+      "ctaText": {
+        "name": "CTA text",
+        "type": "Symbol",
+        "required": true,
+        "localized": true,
+        "size": {
+          "max": 27
+        }
+      }
+    }
+  },
+  "linksGalleryItem": {
+    "name": "📝 Links Gallery Item",
+    "description": "An item held within a Links Gallery Block",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry Name",
+        "type": "Symbol",
+        "required": true
+      },
+      "text": {
+        "name": "Text",
+        "type": "Symbol",
+        "required": true,
+        "localized": true,
+        "size": {
+          "max": 48
+        }
+      },
+      "internalLink": {
+        "name": "Internal Link",
+        "type": "Link",
+        "localized": true,
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "page"
+        ]
+      },
+      "externalLink": {
+        "name": "External Link",
+        "type": "Symbol",
+        "localized": true,
+        "regexp": "^(ftp|http|https):\\/\\/(\\w+:{0,1}\\w*@)?(\\S+)(:[0-9]+)?(\\/|\\/([\\w#!:.?+=&%@!\\-/]))?$"
+      },
+      "mediaAsset": {
+        "name": "Media Asset",
+        "type": "Link",
+        "required": true,
+        "localized": true,
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "mediaAsset"
+        ]
+      }
+    }
+  },
+  "embeddedExperienceBlock": {
+    "name": "🧭 Embedded Experience Block",
+    "description": "Insert available Embedded Experiences (formerly NavApps) into pages",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry name",
+        "type": "Symbol",
+        "required": true
+      },
+      "experience": {
+        "name": "Embedded experience",
+        "type": "Link",
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "embeddedExperience"
+        ]
+      },
+      "pathOverride": {
+        "name": "Path override",
+        "type": "Symbol",
+        "localized": true
+      },
+      "attributes": {
+        "name": "Attributes",
+        "type": "Object",
+        "localized": true
+      },
+      "overridesPageTitle": {
+        "name": "Overrides page title?",
+        "type": "Boolean"
+      }
+    }
+  },
+  "microcopyItem": {
+    "name": "📖 Microcopy Item",
+    "description": "Contains standardised translations for various pieces of microcopy to be used around the site. This is a separate, orphaned content model, not linked to from other content types, but pulled directly into the web app to be used there",
+    "displayField": "key",
+    "fields": {
+      "key": {
+        "name": "Key",
+        "type": "Symbol",
+        "required": true,
+        "size": {
+          "max": 100
+        },
+        "unique": true
+      },
+      "value": {
+        "name": "Value",
+        "type": "Symbol",
+        "required": true,
+        "localized": true
+      }
+    }
+  },
+  "embeddedExperience": {
+    "name": "⚙️ Embedded Experience",
+    "description": "Allows AM team to configure available Embedded Experiences (formerly NavApps) that authors can insert into pages. Authors do not have the ability to create content of this type themselves.",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry name",
+        "type": "Symbol",
+        "required": true,
+        "unique": true
+      },
+      "targetSlug": {
+        "name": "Target slug",
+        "type": "Symbol",
+        "required": true,
+        "localized": true
+      },
+      "locales": {
+        "name": "Locales",
+        "type": "Array",
+        "required": true,
+        "itemType": "Link",
+        "itemLinkType": "Entry",
+        "linkContentTypes": [
+          "marketAndLanguage"
+        ]
+      },
+      "clientRendered": {
+        "name": "Client rendered",
+        "type": "Boolean"
+      }
+    }
+  }
+}

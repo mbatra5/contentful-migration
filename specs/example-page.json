@@ -1,0 +1,62 @@
+{
+  "space": "target",
+  "locale": "en",
+  "pageName": "QA India Energy Hub",
+  "publish": false,
+  "entries": [
+    {
+      "id": "root-page",
+      "contentType": "page",
+      "fields": {
+        "entryName": "QA India Energy Hub",
+        "pageType": "Energy in focus",
+        "pageContent": ["@hero-1", "@split-1", "@video-1", "@rte-1"]
+      }
+    },
+    {
+      "id": "hero-1",
+      "contentType": "hero",
+      "fields": {
+        "entryName": "Hero",
+        "heroStyle": "Standard"
+      }
+    },
+    {
+      "id": "split-1",
+      "contentType": "splitLayoutBlock",
+      "fields": {
+        "entryName": "Split Block"
+      }
+    },
+    {
+      "id": "video-1",
+      "contentType": "kalturaVideoBlock",
+      "fields": {
+        "entryName": "Video Block",
+        "title": "Watch Our Video",
+        "kalturaVideoId": "1_ppkbvyj6",
+        "posterImageAltText": "Video poster"
+      }
+    },
+    {
+      "id": "rte-1",
+      "contentType": "richTextBlock",
+      "fields": {
+        "entryName": "RTE Body",
+        "content": {
+          "nodeType": "document",
+          "data": {},
+          "content": [
+            {
+              "nodeType": "paragraph",
+              "data": {},
+              "content": [
+                { "nodeType": "text", "value": "India's energy landscape is undergoing a significant transformation.", "marks": [], "data": {} }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

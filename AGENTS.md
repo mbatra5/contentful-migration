@@ -45,6 +45,7 @@ Entries are deduplicated across extractions — the same CTA used by 10 pages is
 | `generate-schemas.js` | Pull content type definitions from Contentful | No (writes config/) |
 | `update-locale.js` | Bulk copy locale fields on live entries | Optional (read for IDs) |
 | `run-transform.js` | Agentic field transforms via JSON spec | Optional (read for IDs) |
+| `inspect.js` | Fetch live entry metadata (dates, versions, status) | No (API only) |
 | `list.js` | Browse catalog, extractions, remap | Yes (read) |
 
 ### Shared Libraries
@@ -421,6 +422,10 @@ npm run transform:preview -- --spec transforms/my-spec.json   # Dry run
 npm run locale -- --from en --to en-IN --name <extraction>
 npm run locale:preview -- --from en --to en-IN --type richTextBlock
 
+# === INSPECT (live entry metadata) ===
+npm run inspect -- --entry <id>                       # Dates, versions, status
+npm run inspect -- --entry <id> --space target        # Inspect in target space
+
 # === BROWSE ===
 npm run list                                # Overview
 npm run list -- --type cta                  # Entries by content type
@@ -521,6 +526,12 @@ Transform specs are JSON files that define **what to change** and **where to cha
 ---
 
 ## Agent Task Patterns
+
+### Task: Inspect Entry Metadata (Dates, Versions, Status)
+```bash
+npm run inspect -- --entry <id>                  # Inspect in source (default)
+npm run inspect -- --entry <id> --space target   # Inspect in target space
+```
 
 ### Task: Extract a Page
 ```bash

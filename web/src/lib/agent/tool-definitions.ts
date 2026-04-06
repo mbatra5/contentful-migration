@@ -120,10 +120,12 @@ export const TOOL_DEFS = [
     type: 'function',
     function: {
       name: 'get_entry',
-      description: 'Get full details of a single entry by its ID.',
+      description: 'Get full details of a single entry by its ID: sys metadata (dates, versions, publish status), all field values with all locales, and linked references. Optionally filter to a specific field and/or locale.',
       parameters: { type: 'object', required: ['spaceId', 'envId', 'entryId'], properties: {
         spaceId: { type: 'string' }, envId: { type: 'string', default: 'master' },
         entryId: { type: 'string' },
+        field: { type: 'string', description: 'Optional: return only this field (e.g. "entryName")' },
+        locale: { type: 'string', description: 'Optional: return only this locale (e.g. "en-IN")' },
       }},
     },
   },

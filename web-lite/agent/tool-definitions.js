@@ -121,11 +121,13 @@ export const TOOL_DEFS = [
     type: 'function',
     function: {
       name: 'get_entry',
-      description: 'Get full details of a single entry by its ID. Use when user asks to inspect, view, or check a specific entry.',
+      description: 'Get full details of a single entry by its ID: sys metadata (dates, versions, publish status), all field values with all locales, and linked references. Optionally filter to a specific field and/or locale.',
       parameters: { type: 'object', required: ['spaceId', 'envId', 'entryId'], properties: {
         spaceId: { type: 'string', description: 'Contentful space ID' },
         envId: { type: 'string', description: 'Environment ID', default: 'master' },
         entryId: { type: 'string', description: 'The entry ID to look up' },
+        field: { type: 'string', description: 'Optional: return only this field (e.g. "entryName", "heroStyle")' },
+        locale: { type: 'string', description: 'Optional: return only this locale for the field (e.g. "en", "en-IN")' },
       }},
     },
   },

@@ -45,6 +45,7 @@ Entries are deduplicated across extractions — the same CTA used by 10 pages is
 | `generate-schemas.js` | Pull content type definitions from Contentful | No (writes config/) |
 | `update-locale.js` | Bulk copy locale fields on live entries | Optional (read for IDs) |
 | `run-transform.js` | Agentic field transforms via JSON spec | Optional (read for IDs) |
+| `query.js` | Read-only content inspector — outputs JSON for agentic workflows | No (API only, **read-only**) |
 | `inspect.js` | Fetch live entry metadata (dates, versions, status) | No (API only) |
 | `list.js` | Browse catalog, extractions, remap | Yes (read) |
 
@@ -422,6 +423,15 @@ npm run transform:preview -- --spec transforms/my-spec.json   # Dry run
 npm run locale -- --from en --to en-IN --name <extraction>
 npm run locale:preview -- --from en --to en-IN --type richTextBlock
 
+# === QUERY (read-only JSON inspector — for agentic workflows) ===
+npm run query -- --entry <id>                                      # Full entry dump (sys + fields + refs)
+npm run query -- --entry <id> --field entryName --locale en-IN     # Check specific field+locale
+npm run query -- --entry <id> --children                           # List linked child entries
+npm run query -- --entry <id> --no-resolve                         # Skip resolving refs (faster)
+npm run query -- --type page --count                               # Count entries of a type
+npm run query -- --type hero --field entryName --match "Hero-IN"   # Search by field value
+npm run query:json -- --entry <id>                                 # Clean JSON only (no stderr logs)
+
 # === INSPECT (live entry metadata) ===
 npm run inspect -- --entry <id>                       # Dates, versions, status
 npm run inspect -- --entry <id> --space target        # Inspect in target space
@@ -526,6 +536,38 @@ Transform specs are JSON files that define **what to change** and **where to cha
 ---
 
 ## Agent Task Patterns
+
+### Task: Answer Any Question About Contentful Content (Agentic Query)
+
+**This is the primary agentic workflow.** When the user asks a natural language question about their Contentful content, use `query.js` to fetch structured JSON, then interpret the JSON to answer.
+
+**Workflow:**
+1. Parse the user's question to determine: entry ID, content type, field name, locale, or search criteria
+2. Run the appropriate `npm run query` command
+3. Read the JSON output
+4. Answer the user's question in plain English
+5. If the user wants changes → generate a transform spec from the query data
+
+**Command selection guide:**
+
+| User asks… | Command to run |
+|-----------|---------------|
+| "What is the en-IN title for entry X?" | `npm run query -- --entry X --field entryName --locale en-IN` |
+| "When was entry X first published?" | `npm run query -- --entry X --no-resolve` (check `sys.firstPublishedAt`) |
+| "How many pages exist?" | `npm run query -- --type page --count` |
+| "Which heroes have 'Hero-IN' as the name?" | `npm run query -- --type hero --field entryName --match "Hero-IN"` |
+| "What's inside entry X?" | `npm run query -- --entry X` (full dump with resolved refs) |
+| "How many children does entry X have?" | `npm run query -- --entry X --children` |
+| "Show me all CTAs" | `npm run query -- --type cta` |
+| "Which entries don't have en-IN locale?" | `npm run query -- --type <type> --field entryName --locale en-IN` (check `localeStats`) |
+
+**JSON output modes:**
+- `npm run query` — JSON to stdout, progress logs to stderr (human-friendly)
+- `npm run query:json` — JSON to stdout only, stderr suppressed (pipe-friendly)
+
+**Read-only guarantee:** `query.js` only calls `getEntry()`, `getEntries()`, and `getAsset()` — never modifies data.
+
+**Follow-up pattern:** If the user says "fix it" or "change that", generate a transform spec JSON from the query results and present it for review. The user then runs `npm run transform -- --spec <path>`.
 
 ### Task: Inspect Entry Metadata (Dates, Versions, Status)
 ```bash
@@ -634,6 +676,78 @@ npm run generate-schemas -- --space target  # From target
 SOURCE_CMA_TOKEN=CFPAT-xxxxx
 TARGET_CMA_TOKEN=CFPAT-yyyyy
 ```
+
+---
+
+## Web UI Agent (Ollama Integration)
+
+Two browser-based UIs provide an AI chat agent backed by Ollama that can query and operate on Contentful content.
+
+### Architecture
+
+```
+User (browser) → AI Chat → Ollama (localhost:11434, gpt-oss:20b)
+                              ↓ tool_calls
+                     ┌──────────────────┐
+                     │  READ tools      │ → auto-executed, result fed back to Ollama
+                     │  (get_entry,     │
+                     │   search_entries, │
+                     │   list_types,    │
+                     │   analyze)       │
+                     ├──────────────────┤
+                     │  WRITE tools     │ → JSON card shown to user (copy & execute separately)
+                     │  (update_entry,  │
+                     │   transform,     │
+                     │   migrate, etc.) │
+                     └──────────────────┘
+```
+
+### Versions
+
+| Version | Location | Stack | How to run |
+|---------|----------|-------|------------|
+| **web-lite** | `web-lite/` | Vanilla Preact (no build step) | `npx serve web-lite` → open in browser |
+| **web** | `web/` | Next.js + React + Tailwind | `cd web && npm run dev` → `localhost:3000/agent` |
+
+Both versions share identical agent logic (tool definitions, system prompt, Ollama client). The web-lite version uses plain JS; the web version uses TypeScript.
+
+### Key Files
+
+| Purpose | web-lite | web (Next.js) |
+|---------|----------|---------------|
+| Agent UI + tool execution | `web-lite/agent/AIAgent.js` | `web/src/app/agent/page.tsx` |
+| Tool definitions | `web-lite/agent/tool-definitions.js` | `web/src/lib/agent/tool-definitions.ts` |
+| System prompt | `web-lite/agent/system-prompt.js` | `web/src/lib/agent/system-prompt.ts` |
+| Ollama client | `web-lite/agent/ollama-client.js` | `web/src/lib/agent/ollama-client.ts` |
+| Tool call parser | `web-lite/agent/tool-parser.js` | `web/src/lib/agent/tool-parser.ts` |
+
+### get_entry Tool (Enhanced)
+
+The `get_entry` read-only tool returns structured JSON with:
+- **Full sys metadata**: `createdAt`, `firstPublishedAt`, `publishedAt`, `updatedAt`, `version`, `publishedVersion`, `publishedCounter`, `status`, `createdBy`, `updatedBy`
+- **All field values with all locales** (not just the default locale preview)
+- **Locale coverage map**: which locales are populated for each field
+- **Optional `field` param**: return only a specific field across all locales
+- **Optional `locale` param** (with `field`): check if a locale exists and return its value
+
+This enables the AI agent to answer questions like:
+- "When was this entry first published?" → reads `sys.firstPublishedAt`
+- "Is the en-IN title Hero-IN?" → calls with `field: "entryName", locale: "en-IN"` → checks `found` and `value`
+- "How many times has it been published?" → reads `sys.publishedCounter`
+- "Which fields have en-IN locale?" → reads `localeCoverage`
+
+### Agent Task: Making Changes from Query Results
+
+When the user asks to fix something after a read query:
+1. The AI generates a `update_entry` or `transform` tool call (write tool)
+2. The UI shows the JSON as a copyable card (not auto-executed)
+3. The user reviews the JSON and executes it via Cursor or the manual UI
+
+### Prerequisites
+
+- **Ollama running**: `ollama serve`
+- **Model available**: `gpt-oss:20b` (check with `ollama list`)
+- **CMA token**: entered in the browser UI login screen
 
 ---
 

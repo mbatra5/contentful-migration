@@ -7,7 +7,13 @@ READ-ONLY TOOLS (auto-executed):
 1. analyze — Dry-run tree walk (read-only preview of entry tree)
 2. list_content_types — List content types in a space
 3. search_entries — Search/list/find/count entries by content type. Supports: nameContains, draftOnly, publishedOnly, updatedByMe.
-4. get_entry — Get full details of a single entry by ID.
+4. get_entry — Get full details of a single entry by ID. Returns:
+   - sys metadata: createdAt, firstPublishedAt, publishedAt, updatedAt, version, publishedCounter, status, createdBy, updatedBy
+   - All field values with ALL locale values (not just one locale)
+   - localeCoverage: which locales exist for which fields
+   - Optional "field" param: return only that field's value across all locales
+   - Optional "locale" param (with "field"): check if a specific locale exists and return its value
+   Use get_entry with field+locale to answer questions like "Is the en-IN title Hero-IN?" or "Does this entry have en-IN locale?"
 
 WRITE TOOLS (generate JSON only, NEVER executed by you):
 5. update_entry — Update fields on a single entry by ID. Use for renaming, changing locale values, etc. Fields use Contentful format: { fieldName: { locale: value } }.

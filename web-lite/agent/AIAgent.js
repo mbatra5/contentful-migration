@@ -112,37 +112,89 @@ export function AIAgent({ token, user, log, srcSpace, srcEnv, tgtSpace, tgtEnv, 
           const entry = await getEntry(token, args.spaceId, args.envId, args.entryId);
           const ct = entry.sys.contentType.sys.id;
           const title = getDisplayTitle(entry.fields) || args.entryId;
-          const status = entry.sys.publishedVersion ? 'published' : 'draft';
+          const sysStatus = entry.sys.publishedVersion
+            ? (entry.sys.version === entry.sys.publishedVersion + 1 ? 'Published' : 'Changed (draft)')
+            : 'Draft';
           const refs = extractLinkReferences(entry.fields);
           const fieldNames = Object.keys(entry.fields);
-          const updatedAt = entry.sys.updatedAt ? new Date(entry.sys.updatedAt).toLocaleString() : 'unknown';
-          const updatedBy = entry.sys.updatedBy?.sys?.id || 'unknown';
+
+          const sys = {
+            id: entry.sys.id,
+            contentType: ct,
+            status: sysStatus,
+            createdAt: entry.sys.createdAt || null,
+            firstPublishedAt: entry.sys.firstPublishedAt || null,
+            publishedAt: entry.sys.publishedAt || null,
+            updatedAt: entry.sys.updatedAt || null,
+            version: entry.sys.version ?? null,
+            publishedVersion: entry.sys.publishedVersion ?? null,
+            publishedCounter: entry.sys.publishedCounter ?? null,
+            createdBy: entry.sys.createdBy?.sys?.id || null,
+            updatedBy: entry.sys.updatedBy?.sys?.id || null,
+          };
 
           log.success(`Entry: "${title}" (${args.entryId})`);
-          log.info(`  Content type: ${ct}`);
-          log.info(`  Status: ${status}`);
-          log.info(`  Updated: ${updatedAt} by ${updatedBy}`);
+          log.info(`  Content type: ${ct} | Status: ${sysStatus}`);
+          log.info(`  Created: ${sys.createdAt || 'N/A'}`);
+          log.info(`  First published: ${sys.firstPublishedAt || 'Never'}`);
+          log.info(`  Last published: ${sys.publishedAt || 'N/A'}`);
+          log.info(`  Updated: ${sys.updatedAt || 'N/A'} by ${sys.updatedBy || 'unknown'}`);
+          log.info(`  Version: ${sys.version} | Published count: ${sys.publishedCounter ?? 'N/A'}`);
           log.info(`  References: ${refs.entries.length} entries, ${refs.assets.length} assets`);
-          log.info(`  Fields:`);
 
+          if (args.field) {
+            const lm = entry.fields[args.field];
+            if (!lm || typeof lm !== 'object') {
+              log.info(`  Field "${args.field}": not found`);
+              const data = JSON.stringify({ sys, fieldQuery: { field: args.field, locale: args.locale || null, found: false, value: null } });
+              return { ok: true, summary: `Entry "${title}" (${ct}).\n\nField query result as JSON:\n${data}\n\nThe field "${args.field}" does not exist on this entry. Tell the user clearly.` };
+            }
+            if (args.locale) {
+              const val = lm[args.locale];
+              const found = args.locale in lm;
+              const preview = found ? (typeof val === 'string' ? val : JSON.stringify(val).slice(0, 200)) : null;
+              log.info(`  ${args.field} [${args.locale}]: ${found ? preview : '(locale not found)'}`);
+              log.info(`  Available locales for ${args.field}: ${Object.keys(lm).join(', ')}`);
+              const data = JSON.stringify({ sys, fieldQuery: { field: args.field, locale: args.locale, found, value: found ? val : null, availableLocales: Object.keys(lm) } });
+              return { ok: true, summary: `Entry "${title}" (${ct}).\n\nField query result as JSON:\n${data}\n\nAnswer the user's question about the field and locale directly. If the locale was not found, tell them which locales exist.` };
+            }
+            const allLocales = {};
+            for (const [loc, val] of Object.entries(lm)) {
+              allLocales[loc] = typeof val === 'string' ? val : JSON.stringify(val).slice(0, 200);
+              log.info(`  ${args.field} [${loc}]: ${allLocales[loc]}`);
+            }
+            const data = JSON.stringify({ sys, fieldQuery: { field: args.field, locale: null, found: true, values: allLocales } });
+            return { ok: true, summary: `Entry "${title}" (${ct}).\n\nField values as JSON:\n${data}\n\nShow all locale values for the field clearly.` };
+          }
+
+          log.info(`  Fields:`);
           const fieldData = {};
+          const localeCoverage = {};
           fieldNames.forEach(fn => {
             const lm = entry.fields[fn];
-            if (!lm || typeof lm !== 'object') { fieldData[fn] = '(empty)'; log.info(`    ${fn}: (empty)`); return; }
-            const locales = Object.keys(lm);
-            const firstVal = lm[locales[0]];
-            const preview = typeof firstVal === 'string' ? firstVal.slice(0, 120)
-              : typeof firstVal === 'boolean' ? String(firstVal)
-              : typeof firstVal === 'number' ? String(firstVal)
-              : firstVal?.sys?.type === 'Link' ? `→ ${firstVal.sys.linkType} ${firstVal.sys.id}`
-              : Array.isArray(firstVal) ? `[${firstVal.length} items]`
-              : JSON.stringify(firstVal).slice(0, 80);
-            fieldData[fn] = preview;
-            log.info(`    ${fn} [${locales.join(',')}]: ${preview}`);
+            if (!lm || typeof lm !== 'object') { fieldData[fn] = null; return; }
+            fieldData[fn] = {};
+            for (const [loc, val] of Object.entries(lm)) {
+              if (!localeCoverage[loc]) localeCoverage[loc] = [];
+              localeCoverage[loc].push(fn);
+              const preview = typeof val === 'string' ? val.slice(0, 120)
+                : typeof val === 'boolean' ? String(val)
+                : typeof val === 'number' ? String(val)
+                : val?.sys?.type === 'Link' ? `→ ${val.sys.linkType} ${val.sys.id}`
+                : Array.isArray(val) ? `[${val.length} items]`
+                : val?.nodeType === 'document' ? '(rich text)'
+                : JSON.stringify(val).slice(0, 80);
+              fieldData[fn][loc] = preview;
+            }
+            const locales = Object.keys(fieldData[fn]);
+            log.info(`    ${fn} [${locales.join(',')}]: ${fieldData[fn][locales[0]]}`);
           });
 
-          const data = JSON.stringify({ title, id: args.entryId, contentType: ct, status, updatedAt, updatedBy, refs: { entries: refs.entries.length, assets: refs.assets.length }, fields: fieldData });
-          return { ok: true, summary: `Entry data as JSON:\n${data}\n\nPresent this entry to the user in a clear markdown format. Use bold for field names and show key details.` };
+          const data = JSON.stringify({
+            title, sys, fields: fieldData, localeCoverage,
+            references: { entries: refs.entries.length, assets: refs.assets.length },
+          });
+          return { ok: true, summary: `Entry data as JSON:\n${data}\n\nPresent this entry to the user in a clear markdown format. Include sys metadata (dates, version, status) and field values with their locales. Use bold for field names.` };
         }
         default:
           return { ok: false, summary: `Unknown read action: ${name}` };

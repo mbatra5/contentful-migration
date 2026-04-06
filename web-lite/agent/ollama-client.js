@@ -1,7 +1,9 @@
 const LOCAL_BASE = 'http://localhost:11434';
 const isLocal = typeof window !== 'undefined' && ['localhost', '127.0.0.1'].includes(window.location.hostname);
 
-export const OLLAMA_MODEL = 'gpt-oss:20b';
+const LOCAL_MODEL = 'gpt-oss:120b-cloud';
+const CLOUD_MODEL = 'gpt-oss:20b';
+export const OLLAMA_MODEL = isLocal ? LOCAL_MODEL : CLOUD_MODEL;
 
 export async function checkOllama() {
   try {

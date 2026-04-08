@@ -1,6 +1,7 @@
 import { getEnvironment, getSpaceConfig, parseArgs } from './lib/client.js';
 import { getEntryTitle } from './lib/helpers.js';
 import { loadGlobalRemap } from './lib/catalog.js';
+import { resolveEntryConcepts, getEntryConceptIds } from './lib/taxonomy.js';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -93,6 +94,28 @@ async function main() {
   const remap = loadGlobalRemap(STORE_DIR);
   if (remap[entryId]) {
     console.log(`\n  Remap:            ${entryId} → ${remap[entryId]} (target)`);
+  }
+
+  // Taxonomy concepts
+  const conceptIds = getEntryConceptIds(entry);
+  if (conceptIds.length > 0) {
+    console.log(`\n  Taxonomy:         ${conceptIds.length} concept(s)`);
+    try {
+      const space = getSpaceConfig(spaceAlias);
+      const token = process.env[space.tokenEnvVar];
+      const resolved = await resolveEntryConcepts(entry, token);
+      for (const c of resolved) {
+        const collection = c.collection ? c.collection.label : '(no collection)';
+        console.log(`    • ${c.label}  ← ${collection}`);
+      }
+    } catch {
+      // Fallback: just show IDs if taxonomy API is unavailable
+      for (const id of conceptIds) {
+        console.log(`    • ${id}`);
+      }
+    }
+  } else {
+    console.log(`\n  Taxonomy:         None`);
   }
 
   console.log();

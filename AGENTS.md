@@ -47,6 +47,9 @@ Entries are deduplicated across extractions — the same CTA used by 10 pages is
 | `run-transform.js` | Agentic field transforms via JSON spec | Optional (read for IDs) |
 | `query.js` | Read-only content inspector — outputs JSON for agentic workflows | No (API only, **read-only**) |
 | `inspect.js` | Fetch live entry metadata (dates, versions, status) | No (API only) |
+| `generate-spec.js` | Walk a source entry tree and produce a create-content spec JSON | No (reads source API, writes spec file) |
+| `create-tag.js` | Create a new tag in a Contentful space | No (API only) |
+| `tag-entries.js` | Add a tag to an entry and all its nested children | No (API only) |
 | `list.js` | Browse catalog, extractions, remap | Yes (read) |
 
 ### Shared Libraries
@@ -410,10 +413,20 @@ npm run migrate:solo -- --entry <id>               # Depth 0 (root only)
 npm run migrate:with-assets -- --entry <id>        # Migrate + transfer assets
 npm run migrate:preview -- --entry <id>            # Dry run
 
+# === GENERATE SPEC (cross-space migration) ===
+npm run generate-spec -- --entry <id>                          # Generate spec (defaults baked in)
+npm run generate-spec -- --entry <id> --blank-page <id> --image-asset <id>  # Override defaults
+
 # === CREATE CONTENT (schema-driven authoring) ===
 npm run generate-schemas                                       # Pull schemas from Contentful
 npm run create-content -- --spec specs/my-page.json            # Create from spec
+npm run create-content -- --spec specs/my-page.json --tag <tagId>  # Create + tag
 npm run create-content:preview -- --spec specs/my-page.json    # Dry run
+
+# === TAGGING ===
+npm run create-tag -- --name "myTagName"                       # Create a tag in target
+npm run tag -- --entry <id> --tag <tagId> --space target       # Tag entry + all children
+npm run tag:preview -- --entry <id> --tag <tagId>              # Dry run
 
 # === TRANSFORM (agentic field updates) ===
 npm run transform -- --spec transforms/my-spec.json           # Run spec
@@ -640,6 +653,25 @@ npm run create:with-assets -- --name <extraction> --space target     # From loca
 2. Use `"overrides": {...}` to change specific fields
 3. Template is fetched live from Contentful — no local store needed
 
+### Task: Generate Spec and Create with Tagging
+```bash
+# Generate the spec (defaults baked in, only --entry required)
+npm run generate-spec -- --entry <sourceId>
+
+# Create in target with a tag
+npm run create-content -- --spec specs/<sourceId>.json --tag <tagId>
+```
+
+### Task: Create a Tag
+```bash
+npm run create-tag -- --name "myNewTag"
+```
+
+### Task: Tag Existing Entries
+```bash
+npm run tag -- --entry <rootId> --tag <tagId> --space target
+```
+
 ### Task: Refresh Content Schemas
 ```bash
 npm run generate-schemas                    # From source (default)
@@ -748,6 +780,130 @@ When the user asks to fix something after a read query:
 - **Ollama running**: `ollama serve`
 - **Model available**: `gpt-oss:20b` (check with `ollama list`)
 - **CMA token**: entered in the browser UI login screen
+
+---
+
+## Generate Spec (Cross-Space Migration with Link Replacement)
+
+### What It Solves
+
+When migrating entries across spaces, four content types break because they reference space-specific resources:
+- **Internal page links** (CTA `internalLink`, rich text entry-hyperlinks) — would pull in entire page trees
+- **`imageWithFocalPoint`** — references a source-space Asset file
+- **Downloadable file entries** — references a source-space Asset file
+- **Direct asset links** in CTAs — point to source Assets
+
+`generate-spec.js` walks any source entry tree, classifies every linked entry, and produces a `create-content.js` spec JSON that handles all four cases automatically.
+
+### Usage
+
+```bash
+# Simplest — all defaults baked in
+npm run generate-spec -- --entry <sourceEntryId>
+
+# Override any defaults
+npm run generate-spec -- \
+  --entry <sourceEntryId> \
+  [--blank-page <targetPageId>] \
+  [--image-asset <targetAssetId>] \
+  [--file-asset <targetAssetId>] \
+  [--market-lang <targetMarketLangId>] \
+  [--suffix " - RMA"] \
+  [--output specs/my-spec.json]
+```
+
+### Parameters
+
+| Parameter | Required | Default | Description |
+|-----------|----------|---------|-------------|
+| `--entry` | Yes | — | Source entry ID (any content type) |
+| `--blank-page` | No | `1UN2htPDDQMm2CbbxFS6PU` | Existing target page ID — all internal page links redirect here |
+| `--image-asset` | No | `3SNgZAJXRVBqLYbGQNJ8xI` | Target asset ID — all `imageWithFocalPoint` entries wire to this |
+| `--file-asset` | No | `2L3c0dHZcVdBGPZMOUlG0h` | Target asset ID for downloadable files |
+| `--market-lang` | No | `1INgk6D7VAJ2RB4RbGGLwp` | Target `marketAndLanguage` entry ID (reused, not created) |
+| `--suffix` | No | `" - RMA"` | Appended to all `entryName` fields; slug gets slugified version (`-rma`) |
+| `--output` | No | `specs/<entryId>.json` | Output path |
+| `--space` | No | `source` | Source space alias |
+| `--target-space` | No | `target` | Target space alias |
+| `--depth` | No | unlimited | Max tree walk depth |
+| `--skip-types` | No | — | Extra content types to skip (comma-separated) |
+
+**Hardcoded defaults location:** `scripts/generate-spec.js`, lines 160-163 in `main()`.
+
+### What It Does
+
+1. Walks the full entry tree from source via `walkEntryTree()` (BFS, unlimited depth)
+2. Skips `page` and `marketAndLanguage` types — maps them to existing target entries
+3. Generates unique `@localId` references for all other entries (deduped — shared entries appear once)
+4. Replaces all page links with `existing:<blank-page-id>`
+5. Replaces all `marketAndLanguage` refs with `existing:<market-lang-id>`
+6. Replaces all Asset links with `asset:<image-asset-id>` or `asset:<file-asset-id>`
+7. Processes rich text fields — replaces embedded entry-hyperlinks, embedded-entry-blocks, and inline entries with correct `@localId` or `existing:` references
+8. Appends suffix to all `entryName` fields and slugified suffix to `slug` fields
+9. Outputs a ready-to-run spec JSON
+
+### Workflow
+
+```bash
+# Step 1: Generate the spec (all defaults baked in)
+npm run generate-spec -- --entry <id>
+
+# Step 2: Dry run
+npm run create-content:preview -- --spec specs/<id>.json
+
+# Step 3: Create in target (draft), optionally with tagging
+npm run create-content -- --spec specs/<id>.json [--tag <tagId>]
+```
+
+---
+
+## Tagging
+
+### Create a Tag
+
+```bash
+npm run create-tag -- --name "myTagName" [--space target] [--visibility public]
+```
+
+Creates a new tag in the space. Tag ID is auto-generated by slugifying the name. Validates if the tag already exists (skips if so). Default visibility is `private`.
+
+### Tag at Creation Time
+
+```bash
+npm run create-content -- --spec specs/<id>.json --tag <tagId>
+```
+
+The `--tag` parameter on `create-content.js`:
+- Validates the tag exists before creating any entries (fails fast if not found)
+- Applies the tag to every entry as it's created in Pass 1
+- Works with `--dry-run` (validates tag, shows what would be tagged)
+
+### Tag Existing Entries Retroactively
+
+```bash
+# Dry run
+npm run tag:preview -- --entry <rootId> --tag <tagId> --space target
+
+# Apply
+npm run tag -- --entry <rootId> --tag <tagId> --space target
+```
+
+`tag-entries.js`:
+- Validates the tag exists before starting
+- Walks the full entry tree from the root in the target space
+- Adds the tag to each entry; skips entries already tagged
+- Skips `marketAndLanguage` entries (they're shared, not owned by the migration)
+- Supports `--depth` to limit tree walk depth
+
+### Agent Task: Tag Entries After Migration
+
+```bash
+# 1. Create the tag if needed
+npm run create-tag -- --name "qacardsandvideo"
+
+# 2. Tag all entries under a root
+npm run tag -- --entry <rootId> --tag qacardsandvideo --space target
+```
 
 ---
 

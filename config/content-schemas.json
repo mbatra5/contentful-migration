@@ -1,4 +1,283 @@
 {
+  "page": {
+    "name": "📄 Page",
+    "description": "The central point of our CMS. It defines the individual pages that appear on our website, the languages they target, where the page sits in the content hierarchy, and how the page should be seen by search engines and social websites.",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry name",
+        "type": "Symbol",
+        "required": true
+      },
+      "pageTitle": {
+        "name": "Page title",
+        "type": "Symbol",
+        "required": true,
+        "localized": true
+      },
+      "shortTitle": {
+        "name": "Short title",
+        "type": "Symbol",
+        "localized": true,
+        "size": {
+          "max": 60
+        }
+      },
+      "slug": {
+        "name": "Slug",
+        "type": "Symbol",
+        "required": true
+      },
+      "pageType": {
+        "name": "Page type",
+        "type": "Symbol",
+        "required": true,
+        "in": [
+          "Standard",
+          "Press release",
+          "Speech",
+          "Publication",
+          "Energy in focus"
+        ]
+      },
+      "locales": {
+        "name": "Locales",
+        "type": "Array",
+        "required": true,
+        "itemType": "Link",
+        "itemLinkType": "Entry",
+        "linkContentTypes": [
+          "marketAndLanguage"
+        ]
+      },
+      "pageContent": {
+        "name": "Page content",
+        "type": "Array",
+        "required": true,
+        "itemType": "Link",
+        "itemLinkType": "Entry",
+        "linkContentTypes": [
+          "richTextBlock",
+          "embeddedExperienceBlock",
+          "cardCollection",
+          "hero",
+          "fullWidthMediaBlock",
+          "embedBlock",
+          "tout",
+          "linksGalleryBlock",
+          "switchingContentCollection",
+          "kalturaVideoBlock",
+          "bentoGridBlock",
+          "splitLayoutBlock",
+          "downloadsBlock",
+          "filteredListBlock",
+          "newsletterSignupBlock",
+          "rmaSpaceReference",
+          "anchorLinkBlock",
+          "search",
+          "footnote"
+        ]
+      },
+      "publicationDate": {
+        "name": "Publication date",
+        "type": "Date",
+        "localized": true
+      },
+      "metaTitle": {
+        "name": "Meta title",
+        "type": "Symbol",
+        "localized": true
+      },
+      "metaDescription": {
+        "name": "Meta description",
+        "type": "Symbol",
+        "required": true,
+        "localized": true
+      },
+      "sharingImage": {
+        "name": "Sharing image",
+        "type": "Link",
+        "localized": true,
+        "linkType": "Asset",
+        "mimeTypes": [
+          "image"
+        ]
+      },
+      "sharingImageAlt": {
+        "name": "Sharing image alt",
+        "type": "Symbol",
+        "localized": true
+      },
+      "seoNoFollow": {
+        "name": "SEO nofollow",
+        "type": "Boolean",
+        "required": true
+      },
+      "seoNoIndex": {
+        "name": "SEO noindex",
+        "type": "Boolean",
+        "required": true
+      },
+      "externalParentPage": {
+        "name": "External Parent Page",
+        "type": "Text",
+        "disabled": true,
+        "regexp": "^https?://(app\\.)?contentful\\.com/spaces/[^/]+/(environments/[^/]+/)?entries/[^/]+$"
+      },
+      "parentPage": {
+        "name": "Parent page",
+        "type": "Link",
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "page"
+        ]
+      },
+      "includeInNavigation": {
+        "name": "Include in navigation",
+        "type": "Boolean",
+        "required": true
+      },
+      "navigationPriority": {
+        "name": "Navigation priority",
+        "type": "Integer"
+      },
+      "includeInSitemap": {
+        "name": "Include in sitemap",
+        "type": "Boolean",
+        "required": true
+      },
+      "notificationBanner": {
+        "name": "Notification Banner",
+        "type": "Link",
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "notificationBanner"
+        ]
+      },
+      "showBannerOnChildPages": {
+        "name": "Show banner on child pages",
+        "type": "Boolean"
+      }
+    }
+  },
+  "embedBlock": {
+    "name": "🗃️ Embed Block",
+    "description": "Used to embed external content from select sources outside of bp into the site",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry name",
+        "type": "Symbol",
+        "required": true
+      },
+      "title": {
+        "name": "Title",
+        "type": "Symbol",
+        "localized": true
+      },
+      "embedType": {
+        "name": "Embed type",
+        "type": "Symbol",
+        "required": true,
+        "in": [
+          "DotDigital",
+          "Podbean",
+          "Everviz"
+        ]
+      },
+      "urlDotDigital": {
+        "name": "DotDigital URL",
+        "type": "Symbol",
+        "localized": true,
+        "regexp": "https?:\\/\\/(?:r1\\.dotdigital-pages\\.com|comms\\.castrol\\.com|internal-comms\\.bp\\.com|comms\\.bp\\.com|newsletter\\.aral\\.de|news\\.bp\\.com)(\\/[^\\s]*)?"
+      },
+      "dotDigitalFormMinHeightDesktop": {
+        "name": "DotDigital form min height (desktop) ",
+        "type": "Integer"
+      },
+      "dotDigitalFormMinHeightMobile": {
+        "name": "DotDigital form min height (mobile) ",
+        "type": "Integer"
+      },
+      "urlPodbean": {
+        "name": "Podbean URL",
+        "type": "Symbol",
+        "localized": true,
+        "regexp": "https?:\\/\\/(?:www\\.podbean\\.com)(\\/[^\\s]*)?"
+      },
+      "youtubeId": {
+        "name": "YouTube video ID",
+        "type": "Symbol",
+        "localized": true,
+        "disabled": true
+      },
+      "youtubeMute": {
+        "name": "Mute?",
+        "type": "Boolean",
+        "localized": true,
+        "disabled": true
+      },
+      "youtubePlaysInline": {
+        "name": "PlaysInline (iOS)",
+        "type": "Boolean",
+        "localized": true,
+        "disabled": true
+      },
+      "evervizId": {
+        "name": "Everviz ID",
+        "type": "Symbol",
+        "localized": true
+      }
+    }
+  },
+  "environmentSettings": {
+    "name": "⚙️ Environment Settings",
+    "description": "Allows us to set options and collect information important to an entire Contentful environment",
+    "displayField": "entryName",
+    "fields": {
+      "entryName": {
+        "name": "Entry name",
+        "type": "Symbol",
+        "required": true
+      },
+      "contentModelVersion": {
+        "name": "Content model version",
+        "type": "Integer",
+        "required": true
+      },
+      "nonLatinLanguages": {
+        "name": "Non Latin Languages",
+        "type": "Array",
+        "itemType": "Symbol"
+      },
+      "searchResultsPage": {
+        "name": "Search Results Page",
+        "type": "Link",
+        "required": true,
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "page"
+        ]
+      },
+      "pageNotFoundPage": {
+        "name": "Page not found page",
+        "type": "Link",
+        "linkType": "Entry",
+        "linkContentTypes": [
+          "page"
+        ]
+      },
+      "microcopyDictionary": {
+        "name": "Microcopy Dictionary",
+        "type": "Array",
+        "itemType": "Link",
+        "itemLinkType": "Entry",
+        "linkContentTypes": [
+          "microcopyItem"
+        ]
+      }
+    }
+  },
   "search": {
     "name": "Search",
     "displayField": "title",
@@ -226,46 +505,6 @@
       }
     }
   },
-  "environmentSettings": {
-    "name": "⚙️ Environment Settings",
-    "description": "Allows us to set options and collect information important to an entire Contentful environment",
-    "displayField": "entryName",
-    "fields": {
-      "entryName": {
-        "name": "Entry name",
-        "type": "Symbol",
-        "required": true
-      },
-      "contentModelVersion": {
-        "name": "Content model version",
-        "type": "Integer",
-        "required": true
-      },
-      "nonLatinLanguages": {
-        "name": "Non Latin Languages",
-        "type": "Array",
-        "itemType": "Symbol"
-      },
-      "searchResultsPage": {
-        "name": "Search Results Page",
-        "type": "Link",
-        "required": true,
-        "linkType": "Entry",
-        "linkContentTypes": [
-          "page"
-        ]
-      },
-      "microcopyDictionary": {
-        "name": "Microcopy Dictionary",
-        "type": "Array",
-        "itemType": "Link",
-        "itemLinkType": "Entry",
-        "linkContentTypes": [
-          "microcopyItem"
-        ]
-      }
-    }
-  },
   "modal": {
     "name": "📄 Modal",
     "description": "A modal is a UI overlay that displays content on top of the main interface, typically used to capture user attention for tasks like confirmations, forms, alerts, or additional details. It disables interaction with the underlying content until dismissed, ensuring focus on the modal’s content.",
@@ -332,161 +571,6 @@
       },
       "scrollable": {
         "name": "scrollable",
-        "type": "Boolean"
-      }
-    }
-  },
-  "page": {
-    "name": "📄 Page",
-    "description": "The central point of our CMS. It defines the individual pages that appear on our website, the languages they target, where the page sits in the content hierarchy, and how the page should be seen by search engines and social websites.",
-    "displayField": "entryName",
-    "fields": {
-      "entryName": {
-        "name": "Entry name",
-        "type": "Symbol",
-        "required": true
-      },
-      "pageTitle": {
-        "name": "Page title",
-        "type": "Symbol",
-        "required": true,
-        "localized": true
-      },
-      "shortTitle": {
-        "name": "Short title",
-        "type": "Symbol",
-        "localized": true,
-        "size": {
-          "max": 60
-        }
-      },
-      "slug": {
-        "name": "Slug",
-        "type": "Symbol",
-        "required": true
-      },
-      "pageType": {
-        "name": "Page type",
-        "type": "Symbol",
-        "required": true,
-        "in": [
-          "Standard",
-          "Press release",
-          "Speech",
-          "Publication",
-          "Energy in focus"
-        ]
-      },
-      "locales": {
-        "name": "Locales",
-        "type": "Array",
-        "required": true,
-        "itemType": "Link",
-        "itemLinkType": "Entry",
-        "linkContentTypes": [
-          "marketAndLanguage"
-        ]
-      },
-      "pageContent": {
-        "name": "Page content",
-        "type": "Array",
-        "required": true,
-        "itemType": "Link",
-        "itemLinkType": "Entry",
-        "linkContentTypes": [
-          "richTextBlock",
-          "embeddedExperienceBlock",
-          "cardCollection",
-          "hero",
-          "fullWidthMediaBlock",
-          "embedBlock",
-          "tout",
-          "linksGalleryBlock",
-          "switchingContentCollection",
-          "kalturaVideoBlock",
-          "bentoGridBlock",
-          "splitLayoutBlock",
-          "downloadsBlock",
-          "filteredListBlock",
-          "newsletterSignupBlock",
-          "rmaSpaceReference",
-          "anchorLinkBlock",
-          "search",
-          "footnote"
-        ]
-      },
-      "publicationDate": {
-        "name": "Publication date",
-        "type": "Date",
-        "localized": true
-      },
-      "metaTitle": {
-        "name": "Meta title",
-        "type": "Symbol",
-        "localized": true
-      },
-      "metaDescription": {
-        "name": "Meta description",
-        "type": "Symbol",
-        "required": true,
-        "localized": true
-      },
-      "sharingImage": {
-        "name": "Sharing image",
-        "type": "Link",
-        "localized": true,
-        "linkType": "Asset",
-        "mimeTypes": [
-          "image"
-        ]
-      },
-      "sharingImageAlt": {
-        "name": "Sharing image alt",
-        "type": "Symbol",
-        "localized": true
-      },
-      "seoNoFollow": {
-        "name": "SEO nofollow",
-        "type": "Boolean",
-        "required": true
-      },
-      "seoNoIndex": {
-        "name": "SEO noindex",
-        "type": "Boolean",
-        "required": true
-      },
-      "parentPage": {
-        "name": "Parent page",
-        "type": "Link",
-        "linkType": "Entry",
-        "linkContentTypes": [
-          "page"
-        ]
-      },
-      "includeInNavigation": {
-        "name": "Include in navigation",
-        "type": "Boolean",
-        "required": true
-      },
-      "navigationPriority": {
-        "name": "Navigation priority",
-        "type": "Integer"
-      },
-      "includeInSitemap": {
-        "name": "Include in sitemap",
-        "type": "Boolean",
-        "required": true
-      },
-      "notificationBanner": {
-        "name": "Notification Banner",
-        "type": "Link",
-        "linkType": "Entry",
-        "linkContentTypes": [
-          "notificationBanner"
-        ]
-      },
-      "showBannerOnChildPages": {
-        "name": "Show banner on child pages",
         "type": "Boolean"
       }
     }
@@ -1514,68 +1598,6 @@
         "linkContentTypes": [
           "cta"
         ]
-      }
-    }
-  },
-  "embedBlock": {
-    "name": "🗃️ Embed Block",
-    "description": "Used to embed external content from select sources outside of bp into the site",
-    "displayField": "entryName",
-    "fields": {
-      "entryName": {
-        "name": "Entry name",
-        "type": "Symbol",
-        "required": true
-      },
-      "title": {
-        "name": "Title",
-        "type": "Symbol",
-        "localized": true
-      },
-      "embedType": {
-        "name": "Embed type",
-        "type": "Symbol",
-        "required": true,
-        "in": [
-          "DotDigital",
-          "Podbean",
-          "Everviz"
-        ]
-      },
-      "urlDotDigital": {
-        "name": "DotDigital URL",
-        "type": "Symbol",
-        "localized": true,
-        "regexp": "https?:\\/\\/(?:r1\\.dotdigital-pages\\.com|comms\\.castrol\\.com|internal-comms\\.bp\\.com|comms\\.bp\\.com|newsletter\\.aral\\.de|news\\.bp\\.com)(\\/[^\\s]*)?"
-      },
-      "urlPodbean": {
-        "name": "Podbean URL",
-        "type": "Symbol",
-        "localized": true,
-        "regexp": "https?:\\/\\/(?:www\\.podbean\\.com)(\\/[^\\s]*)?"
-      },
-      "youtubeId": {
-        "name": "YouTube video ID",
-        "type": "Symbol",
-        "localized": true,
-        "disabled": true
-      },
-      "youtubeMute": {
-        "name": "Mute?",
-        "type": "Boolean",
-        "localized": true,
-        "disabled": true
-      },
-      "youtubePlaysInline": {
-        "name": "PlaysInline (iOS)",
-        "type": "Boolean",
-        "localized": true,
-        "disabled": true
-      },
-      "evervizId": {
-        "name": "Everviz ID",
-        "type": "Symbol",
-        "localized": true
       }
     }
   },

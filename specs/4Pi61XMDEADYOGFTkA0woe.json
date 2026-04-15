@@ -1,0 +1,305 @@
+{
+  "space": "target",
+  "locale": "en",
+  "entries": [
+    {
+      "id": "tout-root",
+      "contentType": "tout",
+      "fields": {
+        "entryName": "QA Image Stack Card ( Single & Two Columns) - RMA",
+        "title": { "en-IN": "QAImageStack Ca 1 & 2 Col-IN", "en": "QAImageStack Cards 1 & 2 Col" },
+        "media": "@media-asset-1",
+        "content": { "en-IN": "Hello, Image Stack Component! I can open Two modal one is for \"Single Card\" and another is for \"2 Columns\" Cards-IN", "en": "Hello, Image Stack Component! I can open Two modal one is for \"Single Card\" and another is for \"2 Columns\" Cards" },
+        "secondaryCTA": "@cta-modal-single",
+        "tertiaryCTA": "@cta-modal-two-col",
+        "desktopFormat": { "en-GB": "Media left", "en": "Media left", "en-US": "Media left" }
+      }
+    },
+
+    {
+      "id": "media-asset-1",
+      "contentType": "mediaAsset",
+      "fields": {
+        "entryName": "QA Hero slide image 3 - RMA",
+        "image": "@ifp-1",
+        "altText": { "en-IN": "Hero Slide image 3-IN", "en": "Hero Slide image 3" },
+        "aspectRatio": { "en-GB": "16:9", "en": "16:9", "en-US": "16:9" }
+      }
+    },
+
+    {
+      "id": "ifp-1",
+      "contentType": "imageWithFocalPoint",
+      "fields": {
+        "title": "QA image 3 - RMA",
+        "image": "asset:3SNgZAJXRVBqLYbGQNJ8xI",
+        "focalPoint": { "focalPoint": { "x": 1618, "y": 850 } }
+      }
+    },
+
+    {
+      "id": "cta-modal-single",
+      "contentType": "cta",
+      "fields": {
+        "entryName": "QA CTA Modal Single Card - RMA",
+        "text": { "en-IN": "QA CTA Modal Single - Card-IN", "en": "QA CTA Modal Single - Card" },
+        "internalLink": "@modal-single-card",
+        "style": { "en-GB": "Primary", "en-IN": "Primary", "en": "Primary", "en-US": "Primary" }
+      }
+    },
+
+    {
+      "id": "modal-single-card",
+      "contentType": "modal",
+      "fields": {
+        "entryName": "QA Modal Single Card - RMA",
+        "caption": "QA Modal Single Card",
+        "title": "QA Modal Single Card",
+        "content": ["@card-collection-single"],
+        "scrollable": false
+      }
+    },
+
+    {
+      "id": "card-collection-single",
+      "contentType": "cardCollection",
+      "fields": {
+        "entryName": "QA Single Card: Image - RMA",
+        "title": "QA Single Card: Image",
+        "cards": ["@card-single-image"],
+        "collectionFormat": "Single col grid",
+        "gridBecomesCarouselOnMobile": false,
+        "cardFormat": "Card without Primary CTA",
+        "mediaFormat": "Landscape"
+      }
+    },
+
+    {
+      "id": "card-single-image",
+      "contentType": "card",
+      "fields": {
+        "entryName": "QA Single Image in a Card - RMA",
+        "cardAppearance": "Standard With Image",
+        "number": "1",
+        "media": "@media-asset-2",
+        "cta": "@cta-internal-1",
+        "withPrimaryCta": true
+      }
+    },
+
+    {
+      "id": "media-asset-2",
+      "contentType": "mediaAsset",
+      "fields": {
+        "entryName": "QA Download 2 Image - RMA",
+        "image": "@ifp-1",
+        "altText": "QA Download Image 2",
+        "aspectRatio": "16:9"
+      }
+    },
+
+    {
+      "id": "cta-internal-1",
+      "contentType": "cta",
+      "fields": {
+        "entryName": "QA Internal CTA 1 - RMA",
+        "text": { "en-IN": "Internal Link to click-IN", "en": "Internal Link to click" },
+        "internalLink": "existing:1UN2htPDDQMm2CbbxFS6PU",
+        "style": { "en-GB": "Primary", "en-IN": "Secondary", "en": "Secondary", "en-US": "Primary" },
+        "queryParameters": { "en-IN": "modalId=embedOnModal", "en": "modalId=embedOnModal" }
+      }
+    },
+
+    {
+      "id": "cta-modal-two-col",
+      "contentType": "cta",
+      "fields": {
+        "entryName": "QA CTA Modal Two Columns Cards (Images) - RMA",
+        "text": "QA CTA Modal 2-col Cards",
+        "internalLink": "@modal-two-col",
+        "style": { "en-GB": "Primary", "en": "Primary", "en-US": "Primary" }
+      }
+    },
+
+    {
+      "id": "modal-two-col",
+      "contentType": "modal",
+      "fields": {
+        "entryName": "QA Modal Two Column Cards (Images) - RMA",
+        "caption": "QA Modal Two Column Cards (Images)",
+        "title": "QA Modal Two Column Cards (Images)",
+        "content": ["@card-collection-two-col"],
+        "primaryCta": "@cta-rte",
+        "secondaryCta": "@cta-know-more",
+        "scrollable": false
+      }
+    },
+
+    {
+      "id": "card-collection-two-col",
+      "contentType": "cardCollection",
+      "fields": {
+        "entryName": "QA Two Columns Images Cards - RMA",
+        "title": "QA Two Columns Images Cards",
+        "cards": ["@card-single-image", "@card-single-image"],
+        "collectionFormat": "Two col grid",
+        "gridBecomesCarouselOnMobile": false,
+        "cardFormat": "Card without Primary CTA"
+      }
+    },
+
+    {
+      "id": "cta-rte",
+      "contentType": "cta",
+      "fields": {
+        "entryName": "QA CTA RTE - RMA",
+        "text": "QA CTA RTE Opens Modal & link modal",
+        "internalLink": "@modal-rte",
+        "externalLink": "https://bp.com",
+        "style": { "en-GB": "Primary", "en": "Primary", "en-US": "Primary" }
+      }
+    },
+
+    {
+      "id": "modal-rte",
+      "contentType": "modal",
+      "fields": {
+        "entryName": "QA CTA RTE MODAL - RMA",
+        "modalId": "rte-modal",
+        "caption": "QA CTA RTE MODAL",
+        "content": ["@rte-modal-content"],
+        "scrollable": false
+      }
+    },
+
+    {
+      "id": "rte-modal-content",
+      "contentType": "richTextBlock",
+      "fields": {
+        "entryName": "QA Modal Video Image - RMA",
+        "content": {
+          "nodeType": "document",
+          "data": {},
+          "content": [
+            {
+              "nodeType": "hr",
+              "data": {},
+              "content": []
+            },
+            {
+              "nodeType": "heading-2",
+              "data": {},
+              "content": [
+                { "nodeType": "text", "value": "Oil Productions & Operations: ", "marks": [], "data": {} }
+              ]
+            },
+            {
+              "nodeType": "unordered-list",
+              "data": {},
+              "content": [
+                {
+                  "nodeType": "list-item",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "paragraph",
+                      "data": {},
+                      "content": [
+                        { "nodeType": "text", "value": "Q3 2024 RC profit was $1.9 billion, ", "marks": [], "data": {} },
+                        {
+                          "nodeType": "entry-hyperlink",
+                          "data": {
+                            "target": {
+                              "sys": { "id": "1UN2htPDDQMm2CbbxFS6PU", "type": "Link", "linkType": "Entry" }
+                            }
+                          },
+                          "content": [
+                            { "nodeType": "text", "value": "down", "marks": [], "data": {} }
+                          ]
+                        },
+                        { "nodeType": "text", "value": " from $3.3 billion in Q2. ", "marks": [], "data": {} }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "list-item",
+                  "data": {},
+                  "content": [
+                    {
+                      "nodeType": "paragraph",
+                      "data": {},
+                      "content": [
+                        { "nodeType": "text", "value": "Adjusted underlying profit was $2.8 billion, compared to $3.1 billion, due to lower liquids ", "marks": [], "data": {} },
+                        {
+                          "nodeType": "entry-hyperlink",
+                          "data": {
+                            "target": {
+                              "sys": { "id": "1UN2htPDDQMm2CbbxFS6PU", "type": "Link", "linkType": "Entry" }
+                            }
+                          },
+                          "content": [
+                            { "nodeType": "text", "value": "realizations", "marks": [], "data": {} }
+                          ]
+                        },
+                        { "nodeType": "text", "value": " and higher exploration write-offs..", "marks": [], "data": {} }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "hr",
+              "data": {},
+              "content": []
+            },
+            {
+              "nodeType": "paragraph",
+              "data": {},
+              "content": [
+                { "nodeType": "text", "value": "Embedding image into RTE", "marks": [], "data": {} }
+              ]
+            },
+            {
+              "nodeType": "embedded-entry-block",
+              "data": {
+                "target": {
+                  "sys": { "id": "6W4oElqVZeCUwJphclUVsu", "type": "Link", "linkType": "Entry" }
+                }
+              },
+              "content": []
+            },
+            {
+              "nodeType": "embedded-entry-block",
+              "data": {
+                "target": {
+                  "sys": { "id": "1gcIVTplbqolvkRUL78kCu", "type": "Link", "linkType": "Entry" }
+                }
+              },
+              "content": []
+            },
+            {
+              "nodeType": "paragraph",
+              "data": {},
+              "content": [
+                { "nodeType": "text", "value": "", "marks": [], "data": {} }
+              ]
+            }
+          ]
+        }
+      }
+    },
+
+    {
+      "id": "cta-know-more",
+      "contentType": "cta",
+      "fields": {
+        "entryName": "QA Please click here to know more - RMA",
+        "text": "QA Please click here to know more",
+        "internalLink": "existing:1UN2htPDDQMm2CbbxFS6PU",
+        "style": { "en-GB": "Primary", "en": "Primary", "en-US": "Primary" }
+      }
+    }
+  ]
+}

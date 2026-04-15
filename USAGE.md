@@ -11,11 +11,13 @@ Everything you need to extract, migrate, create, and bulk-update Contentful cont
 3. [Browse the catalog](#browse-the-catalog)
 4. [Create/recreate in target space](#create-in-target-space)
 5. [Direct migration (no local storage)](#direct-migration)
-6. [Create content from scratch](#create-content-from-scratch)
-7. [Bulk locale updates](#bulk-locale-updates)
-8. [Agentic transforms (JSON specs)](#agentic-transforms)
-9. [Prompt templates for AI agents](#prompt-templates)
-10. [FAQ / Troubleshooting](#faq)
+6. [Cross-space migration (generate spec)](#cross-space-migration)
+7. [Create content from scratch](#create-content-from-scratch)
+8. [Tagging](#tagging)
+9. [Bulk locale updates](#bulk-locale-updates)
+10. [Agentic transforms (JSON specs)](#agentic-transforms)
+11. [Prompt templates for AI agents](#prompt-templates)
+12. [FAQ / Troubleshooting](#faq)
 
 ---
 
@@ -244,6 +246,105 @@ npm run migrate:preview -- --entry 4Y0HCkTLM8AhriFRIsDpRH
 # Force re-migration
 npm run migrate -- --entry 4Y0HCkTLM8AhriFRIsDpRH --force
 ```
+
+---
+
+## Cross-Space Migration
+
+Generate a complete `create-content` spec from any source entry, with all linked entries remapped for the target space. Handles page links, images, files, rich text embedded entries, and `marketAndLanguage` entries automatically.
+
+### Commands
+
+| Command | What it does |
+|---------|-------------|
+| `npm run generate-spec -- --entry <id>` | Generate spec (all defaults baked in) |
+| `npm run create-content -- --spec specs/<id>.json` | Create entries from spec |
+| `npm run create-content -- --spec specs/<id>.json --tag <tagId>` | Create + tag all entries |
+| `npm run create-content:preview -- --spec specs/<id>.json` | Dry run |
+
+### How it works
+
+1. Walks the full entry tree from the source entry (BFS, unlimited depth)
+2. Skips `page` and `marketAndLanguage` types — maps them to existing target entries
+3. Replaces all asset links with target asset IDs (image and file)
+4. Remaps embedded entries inside rich text fields (CTAs, links, media) with `@localId` markers
+5. Appends `" - RMA"` to all `entryName` fields and `-rma` to `slug` fields
+6. Outputs a ready-to-run spec JSON
+
+### Default target IDs
+
+All baked into `scripts/generate-spec.js` (lines 160-163). Override via CLI flags if needed.
+
+| Parameter | Default ID | Purpose |
+|-----------|-----------|---------|
+| `--blank-page` | `1UN2htPDDQMm2CbbxFS6PU` | All internal page links point here |
+| `--image-asset` | `3SNgZAJXRVBqLYbGQNJ8xI` | All image assets wire to this |
+| `--file-asset` | `2L3c0dHZcVdBGPZMOUlG0h` | All downloadable file assets wire to this |
+| `--market-lang` | `1INgk6D7VAJ2RB4RbGGLwp` | All `marketAndLanguage` entries reuse this |
+| `--suffix` | `" - RMA"` | Appended to entry names; slug gets `-rma` |
+
+### Examples
+
+```bash
+# Generate spec (only --entry required, rest have defaults)
+npm run generate-spec -- --entry 3BxMuUrUE3kfRRqLnDz0mE
+
+# Dry run to verify
+npm run create-content:preview -- --spec specs/3BxMuUrUE3kfRRqLnDz0mE.json
+
+# Create in target
+npm run create-content -- --spec specs/3BxMuUrUE3kfRRqLnDz0mE.json
+
+# Create with tag
+npm run create-content -- --spec specs/3BxMuUrUE3kfRRqLnDz0mE.json --tag qacardsandvideo
+
+# Override defaults
+npm run generate-spec -- --entry <id> --blank-page <pageId> --image-asset <assetId>
+```
+
+---
+
+## Tagging
+
+Create tags and apply them to entries — either at creation time or retroactively.
+
+### Commands
+
+| Command | What it does |
+|---------|-------------|
+| `npm run create-tag -- --name <tagName>` | Create a new tag (ID auto-generated from name) |
+| `npm run tag -- --entry <id> --tag <tagId>` | Tag entry + all nested children |
+| `npm run tag:preview -- --entry <id> --tag <tagId>` | Dry run (see what would be tagged) |
+
+### Create a tag
+
+```bash
+npm run create-tag -- --name "qacardsandvideo"
+npm run create-tag -- --name "rel12" --space target
+npm run create-tag -- --name "publicTag" --visibility public
+```
+
+Validates if the tag already exists (skips if so). Default visibility is `private`, default space is `target`.
+
+### Tag at creation time
+
+```bash
+npm run create-content -- --spec specs/<id>.json --tag qacardsandvideo
+```
+
+Validates the tag exists before creating any entries. Every entry gets the tag applied as it's created. Works with `--dry-run`.
+
+### Tag existing entries retroactively
+
+```bash
+# Dry run first
+npm run tag:preview -- --entry <rootId> --tag qacardsandvideo --space target
+
+# Apply
+npm run tag -- --entry <rootId> --tag qacardsandvideo --space target
+```
+
+Walks the full entry tree from the root in the target space. Skips entries already tagged and `marketAndLanguage` entries. Supports `--depth` to limit tree walk.
 
 ---
 
@@ -931,9 +1032,13 @@ npm run help     # Show all available commands
 | `migrate` | Direct source→target, depth 1 |
 | `migrate:solo` | Direct, depth 0 |
 | `migrate:preview` | Direct, dry run |
+| `generate-spec` | Generate cross-space migration spec from a source entry |
 | `generate-schemas` | Pull content type definitions from Contentful |
-| `create-content` | Create entries from a content spec |
+| `create-content` | Create entries from a content spec (supports `--tag`) |
 | `create-content:preview` | Dry run content creation |
+| `create-tag` | Create a new tag in a Contentful space |
+| `tag` | Tag an entry and all its nested children |
+| `tag:preview` | Dry run tagging |
 | `transform` | Run a transform spec |
 | `transform:preview` | Dry run transform |
 | `locale` | Bulk locale copy |

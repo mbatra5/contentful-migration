@@ -24,6 +24,7 @@ async function main() {
   const shouldPublish = args.publish === true || spec.publish === true;
   const spaceAlias = args.space || spec.space || 'target';
   const defaultLocale = spec.locale || 'en';
+  const tagId = args.tag || spec.tag || null;
 
   if (!spec.entries || spec.entries.length === 0) {
     console.error('Error: Spec must include at least one entry in the "entries" array.');
@@ -38,7 +39,7 @@ async function main() {
   console.log(`Spec:        ${args.spec}`);
   console.log(`Locale:      ${defaultLocale}`);
   console.log(`Entries:     ${spec.entries.length}`);
-  console.log(`Mode:        ${dryRun ? 'DRY RUN' : 'LIVE'}${shouldPublish ? ' + PUBLISH' : ''}\n`);
+  console.log(`Mode:        ${dryRun ? 'DRY RUN' : 'LIVE'}${shouldPublish ? ' + PUBLISH' : ''}${tagId ? ` + TAG (${tagId})` : ''}\n`);
 
   const schemas = loadSchemas();
   const defaults = loadDefaults();
@@ -58,7 +59,22 @@ async function main() {
   }
 
   const environment = await getEnvironment(spaceAlias);
-  console.log(`Connected.\n`);
+  console.log(`Connected.`);
+
+  if (tagId) {
+    try {
+      const tag = await environment.getTag(tagId);
+      console.log(`Tag:         "${tag.name}" (${tagId}) — validated`);
+    } catch (err) {
+      if (err.message?.includes('NotFound') || err.name === 'NotFound') {
+        console.error(`\nError: Tag "${tagId}" does not exist in space "${spaceAlias}".`);
+        console.error(`Create it first in Contentful: Settings → Tags → Create tag`);
+        process.exit(1);
+      }
+      throw err;
+    }
+  }
+  console.log();
 
   const allowedLocales = await fetchAllowedLocales(environment);
   console.log(`Locales:     ${[...allowedLocales].join(', ')}\n`);
@@ -146,9 +162,14 @@ async function main() {
     process.stdout.write(`  ${label} ${entry.contentType}: ${entryName}...`);
 
     try {
-      const newEntry = await environment.createEntry(entry.contentType, { fields });
+      const metadata = tagId
+        ? { tags: [{ sys: { type: 'Link', linkType: 'Tag', id: tagId } }] }
+        : undefined;
+      const createPayload = { fields };
+      if (metadata) createPayload.metadata = metadata;
+      const newEntry = await environment.createEntry(entry.contentType, createPayload);
       idMap[entry.id] = newEntry.sys.id;
-      console.log(` -> ${newEntry.sys.id}`);
+      console.log(` -> ${newEntry.sys.id}${tagId ? ' [tagged]' : ''}`);
     } catch (err) {
       console.log(` FAILED: ${err.message}`);
       if (err.details?.errors) {
@@ -266,8 +287,46 @@ function isAlreadyLocaleWrapped(value) {
   return keys.length > 0 && keys.every(k => /^[a-z]{2}(-[A-Z]{2})?$/.test(k));
 }
 
+function resolveRichTextRefs(node, stripRefs, idMap) {
+  if (!node || typeof node !== 'object') return;
+
+  if (node.data?.target?.sys?.type === 'Link' && node.data.target.sys.linkType === 'Entry') {
+    const id = node.data.target.sys.id;
+    if (typeof id === 'string' && id.startsWith('@')) {
+      if (stripRefs) {
+        node.data.target.sys.id = '__STRIPPED__';
+        node._stripped = true;
+      } else {
+        const contentfulId = idMap[id.slice(1)];
+        if (contentfulId) {
+          node.data.target.sys.id = contentfulId;
+        }
+      }
+    }
+  }
+
+  if (Array.isArray(node.content)) {
+    if (stripRefs) {
+      node.content = node.content.filter(child => {
+        resolveRichTextRefs(child, stripRefs, idMap);
+        return !child._stripped;
+      });
+    } else {
+      for (const child of node.content) {
+        resolveRichTextRefs(child, stripRefs, idMap);
+      }
+    }
+  }
+}
+
 function resolveFieldValue(value, stripRefs, idMap, lookupCache) {
   if (value === null || value === undefined) return value;
+
+  if (typeof value === 'object' && value !== null && value.nodeType === 'document') {
+    const clone = JSON.parse(JSON.stringify(value));
+    resolveRichTextRefs(clone, stripRefs, idMap);
+    return clone;
+  }
 
   if (typeof value === 'string' && value.startsWith('@')) {
     if (stripRefs) return undefined;
@@ -398,6 +457,7 @@ function printUsage() {
   console.error('Options:');
   console.error('  --spec      Path to content spec JSON file (required)');
   console.error('  --space     Target space alias (overrides spec.space, default: target)');
+  console.error('  --tag       Tag ID to apply to all created entries (validated before creation)');
   console.error('  --publish   Auto-publish entries after creation');
   console.error('  --dry-run   Preview what would be created\n');
   console.error('Reference types in field values:');
